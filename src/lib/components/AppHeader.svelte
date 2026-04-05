@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { browser } from '$app/environment';
+	import { replaceState } from '$app/navigation';
 	import { resolve } from '$app/paths';
 	import { page } from '$app/state';
 	import { Button } from '$lib/components/ui';
@@ -54,7 +55,6 @@
 		}
 
 		const section = document.getElementById(sectionId);
-		const homeRoot = resolve('/');
 
 		if (!section) {
 			return;
@@ -62,7 +62,7 @@
 
 		const motionPreference = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 		section.scrollIntoView({ behavior: motionPreference ? 'auto' : 'smooth', block: 'start' });
-		history.replaceState(null, '', sectionId === 'hero' ? homeRoot : `${homeRoot}#${sectionId}`);
+		replaceState(resolve(sectionId === 'hero' ? '/' : `/#${sectionId}`), {});
 		activeSectionId = sectionId;
 	};
 
@@ -577,9 +577,12 @@
 			padding-block: var(--space-2);
 		}
 
-		.app-header__desktop-nav,
-		:global(.app-header__cta) {
+		.app-header__desktop-nav {
 			display: none;
+		}
+
+		:global(.app-header__inner .app-header__cta) {
+			display: none !important;
 		}
 
 		.app-header__menu-toggle,
