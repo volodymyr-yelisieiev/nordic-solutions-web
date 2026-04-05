@@ -8,16 +8,17 @@
 	};
 
 	let { pageTitle, routePath, purpose }: Props = $props();
+	const sectionId = $derived(routePath === '/' ? 'home' : routePath.slice(1));
 </script>
 
-<SectionShell eyebrow="Sprint 1 Placeholder" title={pageTitle} content={purpose}>
+<SectionShell id={sectionId} eyebrow="Section Placeholder" title={pageTitle} content={purpose}>
 	<p>This page is scaffolded and ready for section-specific content in the next sprint.</p>
 	<p class="route-path">Route: {routePath}</p>
 </SectionShell>
 
 <style>
 	.route-path {
-		font-size: 0.875rem;
+		font-size: var(--font-size-small);
 		color: var(--color-text-muted);
 	}
 </style>

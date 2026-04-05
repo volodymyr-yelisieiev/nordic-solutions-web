@@ -1,5 +1,5 @@
 <script lang="ts">
-	import '$lib/styles/global.css';
+	import '$lib/styles/base.css';
 	import favicon from '$lib/assets/favicon.svg';
 	import PageShell from '$lib/layouts/PageShell.svelte';
 	import { primaryNavigation } from '$lib/modules/site-navigation';

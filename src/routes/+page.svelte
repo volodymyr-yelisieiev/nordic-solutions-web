@@ -2,10 +2,13 @@
 	import { resolve } from '$app/paths';
 	import SectionShell from '$lib/components/SectionShell.svelte';
 	import { homeNarrativeFlow } from '$lib/modules/site-navigation';
+
+	const resolveSectionId = (path: string) => (path === '/' ? 'hero' : path.slice(1));
 </script>
 
 {#each homeNarrativeFlow as step (step.step)}
 	<SectionShell
+		id={resolveSectionId(step.path)}
 		eyebrow={step.step === 1 ? 'Home' : `Step ${step.step} of ${homeNarrativeFlow.length}`}
 		title={step.label}
 		content={step.description}
