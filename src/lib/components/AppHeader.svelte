@@ -235,11 +235,7 @@
 <header class:app-header--elevated={isHeaderElevated} class="app-header">
 	<div class="shell-container app-header__inner">
 		<a class="app-header__brand" href={resolve('/')} aria-label="Nordic Solutions home">
-			<svg class="app-header__mark" viewBox="0 0 28 28" aria-hidden="true">
-				<path d="M14 2L24 14L14 26L4 14Z" fill="none" stroke="currentColor" stroke-width="1.7" />
-				<path d="M14 8L20 14L14 20L8 14Z" fill="currentColor" />
-			</svg>
-			<span>NORDIC SOLUTIONS</span>
+			<img class="app-header__logo" src="/Nordic_Solutions_Logo_Red.svg" alt="Nordic Solutions" />
 		</a>
 
 		<nav class="app-header__desktop-nav" aria-label="Primary navigation">
@@ -371,22 +367,27 @@
 	.app-header__brand {
 		display: inline-flex;
 		align-items: center;
-		gap: var(--space-2);
 		text-decoration: none;
-		color: var(--color-text-primary);
-		font-size: 0.75rem;
-		font-weight: 700;
-		letter-spacing: 0.13em;
-		text-transform: uppercase;
-		white-space: nowrap;
 		border-radius: var(--radius-sm);
-		transition: color var(--duration-base) var(--ease-standard);
+		line-height: 0;
 	}
 
-	.app-header__mark {
-		width: 1.45rem;
-		height: 1.45rem;
-		color: var(--color-accent);
+	.app-header__logo {
+		width: clamp(7.8rem, 12.6vw, 9.8rem);
+		aspect-ratio: 147.401 / 70.866;
+		height: auto;
+	}
+
+	@media (max-width: 1200px) {
+		.app-header__logo {
+			width: 8.9rem;
+		}
+	}
+
+	@media (max-width: 700px) {
+		.app-header__logo {
+			width: 7.9rem;
+		}
 	}
 
 	.app-header__desktop-nav {
@@ -581,14 +582,8 @@
 	}
 
 	@media (max-width: 460px) {
-		.app-header__brand {
-			font-size: 0.69rem;
-			letter-spacing: 0.1em;
-		}
-
-		.app-header__mark {
-			width: 1.32rem;
-			height: 1.32rem;
+		.app-header__logo {
+			width: 7.2rem;
 		}
 	}
 

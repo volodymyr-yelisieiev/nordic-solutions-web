@@ -15,7 +15,9 @@
 <footer class="app-footer">
 	<div class="shell-container app-footer__grid">
 		<section class="app-footer__block">
-			<h2 class="app-footer__title">Nordic Solutions</h2>
+			<a class="app-footer__brand" href={resolve('/')} aria-label="Nordic Solutions home">
+				<img class="app-footer__logo" src="/Nordic_Solutions_Logo_Red.svg" alt="Nordic Solutions" />
+			</a>
 			<p class="app-footer__description">
 				Structured international project support for partnerships, integration work, and long-term
 				execution discipline.
@@ -72,6 +74,19 @@
 		display: grid;
 		gap: var(--space-3);
 		align-content: start;
+	}
+
+	.app-footer__brand {
+		display: inline-flex;
+		width: fit-content;
+		border-radius: var(--radius-sm);
+		line-height: 0;
+	}
+
+	.app-footer__logo {
+		width: clamp(8.6rem, 13vw, 10.8rem);
+		aspect-ratio: 147.401 / 70.866;
+		height: auto;
 	}
 
 	.app-footer__title {
@@ -140,6 +155,7 @@
 		}
 	}
 
+	.app-footer__brand:focus-visible,
 	.app-footer__contacts a:focus-visible,
 	.app-footer__links a:focus-visible {
 		outline: 2px solid var(--focus-ring-color);
@@ -159,6 +175,16 @@
 			grid-template-columns: 1fr;
 			gap: var(--space-8);
 			padding-block: var(--space-10);
+		}
+
+		.app-footer__logo {
+			width: 9rem;
+		}
+	}
+
+	@media (max-width: 600px) {
+		.app-footer__logo {
+			width: 8.2rem;
 		}
 	}
 </style>
