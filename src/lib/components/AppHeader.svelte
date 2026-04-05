@@ -20,6 +20,7 @@
 
 	const currentPathname = $derived(page.url.pathname);
 	const primaryItem = $derived(navigation.find((item) => item.isPrimary) ?? null);
+	const navigationWithoutPrimary = $derived(navigation.filter((item) => !item.isPrimary));
 
 	const sectionIdFromHref = (href: NavigationItem['href']): HomeSectionId =>
 		href.slice(1) as HomeSectionId;
@@ -240,7 +241,7 @@
 
 		<nav class="app-header__desktop-nav" aria-label="Primary navigation">
 			<ul class="app-header__list">
-				{#each navigation as item (item.key)}
+				{#each navigationWithoutPrimary as item (item.key)}
 					<li>
 						<a
 							class:app-header__link--active={isItemActive(item)}
@@ -293,7 +294,7 @@
 	<div class:app-header__mobile-panel--open={isMobileMenuOpen} class="app-header__mobile-panel">
 		<nav aria-label="Mobile navigation">
 			<ul class="app-header__mobile-list" id="app-mobile-navigation">
-				{#each navigation as item (item.key)}
+				{#each navigationWithoutPrimary as item (item.key)}
 					<li>
 						<a
 							class:app-header__mobile-link--active={isItemActive(item)}
