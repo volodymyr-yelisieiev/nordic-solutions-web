@@ -60,7 +60,8 @@
 			return;
 		}
 
-		section.scrollIntoView({ behavior: 'smooth', block: 'start' });
+		const motionPreference = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+		section.scrollIntoView({ behavior: motionPreference ? 'auto' : 'smooth', block: 'start' });
 		history.replaceState(null, '', sectionId === 'hero' ? homeRoot : `${homeRoot}#${sectionId}`);
 		activeSectionId = sectionId;
 	};
@@ -205,7 +206,7 @@
 <header class:app-header--elevated={isHeaderElevated} class="app-header">
 	<div class="shell-container app-header__inner">
 		<a class="app-header__brand" href={resolve('/')} aria-label="Nordic Solutions home">
-			<svg class="app-header__mark" viewBox="0 0 28 28" role="img" aria-hidden="true">
+			<svg class="app-header__mark" viewBox="0 0 28 28" aria-hidden="true">
 				<path d="M14 2L24 14L14 26L4 14Z" fill="none" stroke="currentColor" stroke-width="1.7" />
 				<path d="M14 8L20 14L14 20L8 14Z" fill="currentColor" />
 			</svg>
@@ -281,6 +282,7 @@
 								class:app-header__mobile-link--active={isItemActive(item)}
 								class="app-header__mobile-link app-header__mobile-link-button"
 								onclick={() => handleSectionNavigation(item)}
+								aria-current={isItemActive(item) ? 'page' : undefined}
 							>
 								{item.title}
 							</button>
@@ -290,6 +292,7 @@
 								class="app-header__mobile-link"
 								href={resolve(item.routePath)}
 								onclick={() => (isMobileMenuOpen = false)}
+								aria-current={isItemActive(item) ? 'page' : undefined}
 							>
 								{item.title}
 							</a>
@@ -333,7 +336,7 @@
 		border-bottom: 1px solid var(--color-border-soft);
 		background: color-mix(in oklab, var(--color-bg-canvas) 92%, white);
 		backdrop-filter: blur(12px);
-		transition: box-shadow 180ms ease;
+		transition: box-shadow var(--duration-base) var(--ease-standard);
 	}
 
 	.app-header--elevated {
@@ -359,6 +362,8 @@
 		letter-spacing: 0.13em;
 		text-transform: uppercase;
 		white-space: nowrap;
+		border-radius: var(--radius-sm);
+		transition: color var(--duration-base) var(--ease-standard);
 	}
 
 	.app-header__mark {
@@ -394,8 +399,9 @@
 		font-weight: 500;
 		color: var(--color-text-muted);
 		transition:
-			color 180ms ease,
-			background-color 180ms ease;
+			color var(--duration-base) var(--ease-standard),
+			background-color var(--duration-base) var(--ease-standard),
+			transform var(--duration-fast) var(--ease-emphasis);
 	}
 
 	.app-header__link-button {
@@ -405,9 +411,15 @@
 		cursor: pointer;
 	}
 
-	.app-header__link:hover {
-		color: var(--color-text-primary);
-		background: color-mix(in oklab, var(--color-bg-subtle) 80%, white);
+	@media (hover: hover) {
+		.app-header__link:hover {
+			color: var(--color-text-primary);
+			background: color-mix(in oklab, var(--color-bg-subtle) 80%, white);
+		}
+	}
+
+	.app-header__link:active {
+		transform: scale(0.98);
 	}
 
 	.app-header__link--active {
@@ -432,6 +444,10 @@
 		border-radius: var(--radius-md);
 		background: color-mix(in oklab, var(--color-bg-elevated) 88%, white);
 		color: var(--color-text-primary);
+		transition:
+			background-color var(--duration-base) var(--ease-standard),
+			border-color var(--duration-base) var(--ease-standard),
+			transform var(--duration-fast) var(--ease-emphasis);
 	}
 
 	.app-header__menu-line {
@@ -439,6 +455,32 @@
 		height: 2px;
 		border-radius: var(--radius-pill);
 		background: currentColor;
+		transform-origin: center;
+		transition:
+			transform var(--duration-base) var(--ease-emphasis),
+			opacity var(--duration-fast) var(--ease-standard);
+	}
+
+	.app-header__menu-toggle[aria-expanded='true'] .app-header__menu-line:nth-child(1) {
+		transform: translateY(0.37rem) rotate(45deg);
+	}
+
+	.app-header__menu-toggle[aria-expanded='true'] .app-header__menu-line:nth-child(2) {
+		opacity: 0;
+	}
+
+	.app-header__menu-toggle[aria-expanded='true'] .app-header__menu-line:nth-child(3) {
+		transform: translateY(-0.37rem) rotate(-45deg);
+	}
+
+	@media (hover: hover) {
+		.app-header__menu-toggle:hover {
+			background: color-mix(in oklab, var(--color-bg-subtle) 74%, white);
+		}
+	}
+
+	.app-header__menu-toggle:active {
+		transform: scale(0.98);
 	}
 
 	.app-header__mobile-panel {
@@ -446,7 +488,9 @@
 		padding-inline: var(--container-gutter);
 		max-height: 0;
 		overflow: hidden;
-		transition: max-height 240ms ease;
+		transition:
+			max-height 260ms var(--ease-emphasis),
+			border-color var(--duration-base) var(--ease-standard);
 		border-top: 1px solid transparent;
 	}
 
@@ -474,6 +518,9 @@
 		font-size: 1rem;
 		font-weight: 500;
 		color: var(--color-text-primary);
+		transition:
+			background-color var(--duration-base) var(--ease-standard),
+			transform var(--duration-fast) var(--ease-emphasis);
 	}
 
 	.app-header__mobile-link-button {
@@ -488,8 +535,39 @@
 		background: color-mix(in oklab, var(--color-accent-soft) 68%, var(--color-bg-elevated));
 	}
 
+	@media (hover: hover) {
+		.app-header__mobile-link:hover {
+			background: color-mix(in oklab, var(--color-bg-subtle) 78%, white);
+		}
+	}
+
+	.app-header__mobile-link:active {
+		transform: scale(0.99);
+	}
+
+	.app-header__brand:focus-visible,
+	.app-header__link:focus-visible,
+	.app-header__mobile-link:focus-visible,
+	.app-header__menu-toggle:focus-visible {
+		outline: 2px solid var(--focus-ring-color);
+		outline-offset: 2px;
+		box-shadow: 0 0 0 4px var(--focus-ring-shadow);
+	}
+
 	:global(.app-header__mobile-cta) {
 		margin: var(--space-2) 0 var(--space-4);
+	}
+
+	@media (max-width: 460px) {
+		.app-header__brand {
+			font-size: 0.69rem;
+			letter-spacing: 0.1em;
+		}
+
+		.app-header__mark {
+			width: 1.32rem;
+			height: 1.32rem;
+		}
 	}
 
 	@media (max-width: 960px) {
@@ -511,6 +589,17 @@
 
 		.app-header__mobile-panel {
 			flex-direction: column;
+		}
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		.app-header,
+		.app-header__link,
+		.app-header__menu-toggle,
+		.app-header__menu-line,
+		.app-header__mobile-link,
+		.app-header__mobile-panel {
+			transition: none;
 		}
 	}
 </style>

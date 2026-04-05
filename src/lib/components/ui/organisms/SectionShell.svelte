@@ -11,7 +11,7 @@
 	let { title, eyebrow, id, description, showDivider = true, children }: Props = $props();
 </script>
 
-<section class="section-shell" {id} aria-label={title}>
+<section class="section-shell" {id}>
 	<header class="section-shell__header">
 		{#if eyebrow}
 			<p class="section-shell__eyebrow">{eyebrow}</p>

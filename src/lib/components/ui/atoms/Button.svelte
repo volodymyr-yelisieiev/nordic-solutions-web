@@ -95,20 +95,27 @@
 		white-space: nowrap;
 		cursor: pointer;
 		transition:
-			background-color 180ms ease,
-			color 180ms ease,
-			border-color 180ms ease,
-			box-shadow 180ms ease,
-			transform 180ms ease;
+			background-color var(--duration-base) var(--ease-standard),
+			color var(--duration-base) var(--ease-standard),
+			border-color var(--duration-base) var(--ease-standard),
+			box-shadow var(--duration-base) var(--ease-standard),
+			transform var(--duration-fast) var(--ease-emphasis);
 	}
 
-	.ui-button:hover {
-		transform: translateY(-1px);
+	@media (hover: hover) {
+		.ui-button:hover {
+			transform: translateY(-1px);
+		}
 	}
 
 	.ui-button:focus-visible {
-		outline: 2px solid color-mix(in oklab, var(--color-accent) 42%, white);
+		outline: 2px solid var(--focus-ring-color);
 		outline-offset: 2px;
+		box-shadow: 0 0 0 4px var(--focus-ring-shadow);
+	}
+
+	.ui-button:active {
+		transform: translateY(0) scale(0.98);
 	}
 
 	.ui-button--md {
@@ -130,8 +137,11 @@
 		box-shadow: var(--shadow-sm);
 	}
 
-	.ui-button--primary:hover {
-		background: color-mix(in oklab, var(--color-accent-soft) 68%, var(--color-bg-elevated));
+	@media (hover: hover) {
+		.ui-button--primary:hover {
+			background: color-mix(in oklab, var(--color-accent-soft) 68%, var(--color-bg-elevated));
+			box-shadow: 0 10px 20px -16px rgb(12 45 33 / 0.36);
+		}
 	}
 
 	.ui-button--secondary {
@@ -140,9 +150,11 @@
 		color: var(--color-text-primary);
 	}
 
-	.ui-button--secondary:hover {
-		border-color: color-mix(in oklab, var(--color-border-strong) 70%, var(--color-border-soft));
-		background: color-mix(in oklab, var(--color-bg-subtle) 75%, white);
+	@media (hover: hover) {
+		.ui-button--secondary:hover {
+			border-color: color-mix(in oklab, var(--color-border-strong) 70%, var(--color-border-soft));
+			background: color-mix(in oklab, var(--color-bg-subtle) 75%, white);
+		}
 	}
 
 	.ui-button--ghost {
@@ -151,9 +163,11 @@
 		color: var(--color-text-muted);
 	}
 
-	.ui-button--ghost:hover {
-		color: var(--color-text-primary);
-		background: color-mix(in oklab, var(--color-bg-subtle) 64%, white);
+	@media (hover: hover) {
+		.ui-button--ghost:hover {
+			color: var(--color-text-primary);
+			background: color-mix(in oklab, var(--color-bg-subtle) 64%, white);
+		}
 	}
 
 	.ui-button--full {

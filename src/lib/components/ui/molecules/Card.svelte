@@ -40,6 +40,11 @@
 		gap: var(--card-content-gap);
 		border-radius: var(--radius-md);
 		border: 1px solid var(--color-border-soft);
+		position: relative;
+		transition:
+			border-color var(--duration-base) var(--ease-standard),
+			box-shadow var(--duration-base) var(--ease-standard),
+			transform var(--duration-fast) var(--ease-emphasis);
 	}
 
 	.ui-card--md {
@@ -61,5 +66,20 @@
 
 	.ui-card--outlined {
 		background: transparent;
+	}
+
+	@media (hover: hover) {
+		.ui-card--elevated:hover,
+		.ui-card--subtle:hover {
+			transform: translateY(-2px);
+			border-color: color-mix(in oklab, var(--color-border-strong) 62%, var(--color-border-soft));
+			box-shadow: var(--shadow-md);
+		}
+	}
+
+	.ui-card--elevated:focus-within,
+	.ui-card--subtle:focus-within {
+		border-color: color-mix(in oklab, var(--color-accent) 42%, var(--color-border-soft));
+		box-shadow: var(--shadow-md);
 	}
 </style>

@@ -26,9 +26,9 @@
 		background: color-mix(in oklab, var(--color-bg-elevated) 90%, white);
 		color: var(--color-text-primary);
 		transition:
-			border-color 180ms ease,
-			box-shadow 180ms ease,
-			background-color 180ms ease;
+			border-color var(--duration-base) var(--ease-standard),
+			box-shadow var(--duration-base) var(--ease-standard),
+			background-color var(--duration-base) var(--ease-standard);
 	}
 
 	.ui-text-input::placeholder {
@@ -36,12 +36,14 @@
 	}
 
 	.ui-text-input:focus-visible {
-		outline: 2px solid color-mix(in oklab, var(--color-accent) 32%, white);
+		outline: 2px solid var(--focus-ring-color);
 		outline-offset: 1px;
+		box-shadow: 0 0 0 4px var(--focus-ring-shadow);
 		border-color: color-mix(in oklab, var(--color-accent) 34%, var(--color-border-soft));
 	}
 
 	.ui-text-input--invalid {
-		border-color: color-mix(in oklab, var(--color-danger) 56%, var(--color-border-soft));
+		border-color: color-mix(in oklab, var(--color-danger) 68%, var(--color-border-soft));
+		background: color-mix(in oklab, var(--color-danger) 4%, var(--color-bg-elevated));
 	}
 </style>

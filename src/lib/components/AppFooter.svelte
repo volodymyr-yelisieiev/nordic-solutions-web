@@ -98,6 +98,16 @@
 		font-weight: 560;
 		text-decoration: none;
 		color: var(--color-text-primary);
+		border-radius: var(--radius-sm);
+		transition:
+			color var(--duration-base) var(--ease-standard),
+			background-color var(--duration-base) var(--ease-standard);
+	}
+
+	@media (hover: hover) {
+		.app-footer__contacts a:hover {
+			color: color-mix(in oklab, var(--color-accent) 82%, black);
+		}
 	}
 
 	.app-footer__links {
@@ -117,10 +127,22 @@
 		text-decoration: none;
 		font-size: 0.95rem;
 		border-radius: var(--radius-sm);
+		transition:
+			background-color var(--duration-base) var(--ease-standard),
+			color var(--duration-base) var(--ease-standard);
 	}
 
-	.app-footer__links a:hover {
-		background: color-mix(in oklab, var(--color-bg-elevated) 78%, white);
+	@media (hover: hover) {
+		.app-footer__links a:hover {
+			background: color-mix(in oklab, var(--color-bg-elevated) 78%, white);
+		}
+	}
+
+	.app-footer__contacts a:focus-visible,
+	.app-footer__links a:focus-visible {
+		outline: 2px solid var(--focus-ring-color);
+		outline-offset: 2px;
+		box-shadow: 0 0 0 4px var(--focus-ring-shadow);
 	}
 
 	.app-footer__meta {

@@ -2,8 +2,8 @@
 	type Props = {
 		label: string;
 		inputId: string;
-		error?: string;
-		helper?: string;
+		error?: string | undefined;
+		helper?: string | undefined;
 		required?: boolean;
 		children?: import('svelte').Snippet;
 	};
@@ -11,6 +11,7 @@
 	let { label, inputId, error, helper, required = false, children }: Props = $props();
 
 	const hintText = $derived(error ?? helper ?? '');
+	const hintId = $derived(`${inputId}-hint`);
 </script>
 
 <div class="form-field">
@@ -28,7 +29,14 @@
 	{/if}
 
 	{#if hintText}
-		<p class:form-field__hint--error={Boolean(error)} class="form-field__hint">{hintText}</p>
+		<p
+			id={hintId}
+			class:form-field__hint--error={Boolean(error)}
+			class="form-field__hint"
+			aria-live={error ? 'polite' : undefined}
+		>
+			{hintText}
+		</p>
 	{/if}
 </div>
 

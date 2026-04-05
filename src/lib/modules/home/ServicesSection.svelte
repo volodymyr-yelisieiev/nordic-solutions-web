@@ -61,7 +61,7 @@
 		}
 	}
 
-	@media (max-width: 760px) {
+	@media (max-width: 820px) {
 		.services-section__grid {
 			grid-template-columns: 1fr;
 		}

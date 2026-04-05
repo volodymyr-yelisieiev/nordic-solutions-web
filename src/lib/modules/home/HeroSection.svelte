@@ -1,8 +1,15 @@
 <script lang="ts">
 	import { Button } from '$lib/components/ui';
+	import { revealOnView } from '$lib/modules/home/reveal-on-view';
 </script>
 
-<section id="hero" class="hero-section" aria-labelledby="hero-heading">
+<section
+	id="hero"
+	class="hero-section"
+	aria-labelledby="hero-heading"
+	style="--section-reveal-progress: 0"
+	use:revealOnView
+>
 	<div class="hero-section__layout">
 		<div class="hero-section__content">
 			<p class="hero-section__eyebrow">International project structuring</p>
@@ -20,7 +27,7 @@
 			</div>
 		</div>
 
-		<aside class="hero-section__visual" aria-label="Abstract visual placeholder">
+		<aside class="hero-section__visual" role="img" aria-label="Abstract visual placeholder">
 			<div class="hero-section__placeholder">
 				<span>Abstract visual placeholder</span>
 			</div>
@@ -44,6 +51,11 @@
 	.hero-section__content {
 		display: grid;
 		gap: var(--space-5);
+		opacity: var(--section-reveal-progress, 0);
+		transform: translateY(calc((1 - var(--section-reveal-progress, 0)) * 0.7rem));
+		transition:
+			opacity 520ms var(--ease-emphasis),
+			transform 520ms var(--ease-emphasis);
 	}
 
 	.hero-section__eyebrow {
@@ -71,6 +83,12 @@
 
 	.hero-section__visual {
 		display: grid;
+		opacity: var(--section-reveal-progress, 0);
+		transform: translateY(calc((1 - var(--section-reveal-progress, 0)) * 0.7rem));
+		transition:
+			opacity 520ms var(--ease-emphasis),
+			transform 520ms var(--ease-emphasis);
+		transition-delay: 120ms;
 	}
 
 	.hero-section__placeholder {
@@ -103,6 +121,30 @@
 
 		.hero-section__placeholder {
 			aspect-ratio: 16 / 10;
+		}
+	}
+
+	@media (max-width: 768px) {
+		.hero-section {
+			padding-block: var(--space-10);
+		}
+
+		.hero-section__actions {
+			display: grid;
+			grid-template-columns: 1fr;
+		}
+
+		.hero-section__actions :global(.ui-button) {
+			width: 100%;
+		}
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		.hero-section__content,
+		.hero-section__visual {
+			opacity: 1;
+			transform: none;
+			transition: none;
 		}
 	}
 </style>
