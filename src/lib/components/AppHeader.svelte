@@ -2,6 +2,7 @@
 	import { browser } from '$app/environment';
 	import { resolve } from '$app/paths';
 	import { page } from '$app/state';
+	import { Button } from '$lib/components/ui';
 	import type { HomeSectionId, NavigationItem } from '$lib/modules/site-navigation';
 	import { onMount, tick } from 'svelte';
 
@@ -242,13 +243,17 @@
 		</nav>
 
 		{#if currentPathname === '/'}
-			<button
+			<Button
 				type="button"
-				class="app-header__cta app-header__cta-button"
-				onclick={handlePrimaryAction}>Contact</button
+				variant="primary"
+				size="md"
+				class="app-header__cta"
+				onclick={handlePrimaryAction}>Contact</Button
 			>
 		{:else}
-			<a class="app-header__cta" href={resolve('/contact')}>Contact</a>
+			<Button href={resolve('/contact')} variant="primary" size="md" class="app-header__cta"
+				>Contact</Button
+			>
 		{/if}
 
 		<button
@@ -295,19 +300,27 @@
 		</nav>
 
 		{#if currentPathname === '/'}
-			<button
+			<Button
 				type="button"
-				class="app-header__mobile-cta app-header__mobile-cta-button"
+				variant="primary"
+				size="lg"
+				fullWidth={true}
+				class="app-header__mobile-cta"
 				onclick={handlePrimaryAction}
 			>
 				Contact
-			</button>
+			</Button>
 		{:else}
-			<a
-				class="app-header__mobile-cta"
+			<Button
 				href={resolve('/contact')}
-				onclick={() => (isMobileMenuOpen = false)}>Contact</a
+				variant="primary"
+				size="lg"
+				fullWidth={true}
+				class="app-header__mobile-cta"
+				onclick={() => (isMobileMenuOpen = false)}
 			>
+				Contact
+			</Button>
 		{/if}
 	</div>
 </header>
@@ -402,27 +415,8 @@
 		background: color-mix(in oklab, var(--color-accent-soft) 74%, var(--color-bg-elevated));
 	}
 
-	.app-header__cta {
-		display: inline-flex;
-		align-items: center;
-		justify-content: center;
-		min-height: 2.6rem;
-		padding-inline: 1rem;
-		border-radius: var(--radius-pill);
-		border: 1px solid color-mix(in oklab, var(--color-accent) 66%, var(--color-border-soft));
-		background: color-mix(in oklab, var(--color-accent-soft) 55%, var(--color-bg-elevated));
-		text-decoration: none;
-		font-size: 0.9rem;
-		font-weight: 650;
-		color: color-mix(in oklab, var(--color-accent) 90%, black);
-		white-space: nowrap;
-		box-shadow: var(--shadow-sm);
-	}
-
-	.app-header__cta-button {
-		border: 1px solid color-mix(in oklab, var(--color-accent) 66%, var(--color-border-soft));
-		font: inherit;
-		cursor: pointer;
+	:global(.app-header__cta) {
+		justify-self: end;
 	}
 
 	.app-header__menu-toggle {
@@ -494,25 +488,8 @@
 		background: color-mix(in oklab, var(--color-accent-soft) 68%, var(--color-bg-elevated));
 	}
 
-	.app-header__mobile-cta {
-		display: inline-flex;
-		align-items: center;
-		justify-content: center;
-		width: 100%;
-		min-height: 2.95rem;
+	:global(.app-header__mobile-cta) {
 		margin: var(--space-2) 0 var(--space-4);
-		border-radius: var(--radius-md);
-		text-decoration: none;
-		font-size: 1rem;
-		font-weight: 650;
-		color: var(--color-bg-elevated);
-		background: var(--color-accent);
-	}
-
-	.app-header__mobile-cta-button {
-		border: 0;
-		font: inherit;
-		cursor: pointer;
 	}
 
 	@media (max-width: 960px) {
@@ -523,7 +500,7 @@
 		}
 
 		.app-header__desktop-nav,
-		.app-header__cta {
+		:global(.app-header__cta) {
 			display: none;
 		}
 

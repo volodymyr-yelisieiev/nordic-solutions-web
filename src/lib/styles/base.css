@@ -10,8 +10,12 @@
 	--font-size-h1: clamp(2.2rem, 3.8vw, 3.1rem);
 	--font-size-h2: clamp(1.7rem, 2.7vw, 2.2rem);
 	--font-size-h3: clamp(1.3rem, 1.6vw, 1.5rem);
+	--font-size-h4: 1.16rem;
 	--font-size-body: 1rem;
+	--font-size-body-sm: 0.95rem;
 	--font-size-small: 0.875rem;
+	--font-size-kicker: 0.78rem;
+	--font-size-caption: 0.92rem;
 	--line-height-tight: 1.12;
 	--line-height-heading: 1.2;
 	--line-height-body: 1.62;
@@ -49,11 +53,23 @@
 	--radius-pill: 999px;
 	--shadow-sm: 0 1px 2px rgb(19 34 24 / 0.06);
 	--shadow-md: 0 10px 22px -18px rgb(19 34 24 / 0.24);
+	--card-padding-md: var(--space-4);
+	--card-padding-lg: clamp(var(--space-4), 2vw, var(--space-6));
+	--card-content-gap: var(--space-3);
+	--step-badge-size: 2.3rem;
+	--control-height-md: 2.8rem;
+	--control-height-lg: 3rem;
+	--control-padding-inline-md: 1rem;
+	--control-padding-inline-lg: 1.2rem;
+	--control-padding-inline-field: 0.78rem;
+	--control-padding-block: 0.72rem;
 
 	/* Layout */
 	--max-content-width: 70rem;
 	--container-gutter: clamp(var(--space-4), 4vw, var(--space-8));
 	--section-space: clamp(var(--space-10), 7vw, 5.5rem);
+	--section-heading-max-width: 66ch;
+	--section-copy-max-width: 62ch;
 	--header-height: 4.5rem;
 
 	/* Compatibility aliases during migration */

@@ -1,3 +1,7 @@
+<script lang="ts">
+	import { Button } from '$lib/components/ui';
+</script>
+
 <section id="hero" class="hero-section" aria-labelledby="hero-heading">
 	<div class="hero-section__layout">
 		<div class="hero-section__content">
@@ -11,10 +15,8 @@
 			</p>
 
 			<div class="hero-section__actions">
-				<a class="hero-section__action hero-section__action--primary" href="#contact">Contact Us</a>
-				<a class="hero-section__action hero-section__action--secondary" href="#about"
-					>Learn About Nordic</a
-				>
+				<Button href="#contact" variant="primary" size="lg">Contact Us</Button>
+				<Button href="#about" variant="secondary" size="lg">Learn About Nordic</Button>
 			</div>
 		</div>
 
@@ -46,7 +48,7 @@
 
 	.hero-section__eyebrow {
 		margin: 0;
-		font-size: 0.78rem;
+		font-size: var(--font-size-kicker);
 		font-weight: 700;
 		text-transform: uppercase;
 		letter-spacing: 0.12em;
@@ -65,31 +67,6 @@
 		display: flex;
 		flex-wrap: wrap;
 		gap: var(--space-3);
-	}
-
-	.hero-section__action {
-		display: inline-flex;
-		align-items: center;
-		justify-content: center;
-		min-height: 2.95rem;
-		padding-inline: 1.15rem;
-		border-radius: var(--radius-pill);
-		font-size: 0.95rem;
-		font-weight: 640;
-		text-decoration: none;
-	}
-
-	.hero-section__action--primary {
-		border: 1px solid color-mix(in oklab, var(--color-accent) 66%, var(--color-border-soft));
-		background: color-mix(in oklab, var(--color-accent-soft) 55%, var(--color-bg-elevated));
-		color: color-mix(in oklab, var(--color-accent) 84%, black);
-		box-shadow: var(--shadow-sm);
-	}
-
-	.hero-section__action--secondary {
-		border: 1px solid var(--color-border-soft);
-		background: color-mix(in oklab, var(--color-bg-elevated) 88%, white);
-		color: var(--color-text-primary);
 	}
 
 	.hero-section__visual {
@@ -114,7 +91,7 @@
 				var(--color-bg-subtle)
 			);
 		color: var(--color-text-muted);
-		font-size: 0.92rem;
+		font-size: var(--font-size-caption);
 		font-weight: 600;
 	}
 

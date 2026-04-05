@@ -1,6 +1,5 @@
 <script lang="ts">
-	import SectionShell from '$lib/components/SectionShell.svelte';
-	import HomeCard from '$lib/modules/home/shared/HomeCard.svelte';
+	import { SectionShell, ValueCard } from '$lib/components/ui';
 
 	const reasons = [
 		{
@@ -30,11 +29,11 @@
 	id="why-nordic"
 	eyebrow="Why Nordic"
 	title="A partnership model centered on trust, clarity, and delivery discipline."
-	content="The differentiators below summarize how we work and why clients choose to continue working with us."
+	description="The differentiators below summarize how we work and why clients choose to continue working with us."
 >
 	<div class="why-nordic-section__grid" aria-label="Reasons to work with Nordic Solutions">
 		{#each reasons as reason (reason.title)}
-			<HomeCard title={reason.title} description={reason.description} compact={true} />
+			<ValueCard title={reason.title} description={reason.description} />
 		{/each}
 	</div>
 </SectionShell>

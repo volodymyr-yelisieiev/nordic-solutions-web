@@ -1,5 +1,5 @@
 <script lang="ts">
-	import SectionShell from '$lib/components/SectionShell.svelte';
+	import { Card, SectionShell } from '$lib/components/ui';
 
 	const regions = ['Gulf Region', 'Wider MENA', 'European Partner Network'];
 	const clientProfiles = [
@@ -13,7 +13,7 @@
 	id="presence"
 	eyebrow="Presence"
 	title="Regional footprint with a multi-market execution perspective."
-	content="This block is intentionally high-level: enough substance for credibility, without exposing confidential operational details."
+	description="This block is intentionally high-level: enough substance for credibility, without exposing confidential operational details."
 >
 	<div class="presence-section__layout">
 		<div class="presence-section__content">
@@ -44,10 +44,10 @@
 		</div>
 
 		<div class="presence-section__visual" role="img" aria-label="Map or diagram placeholder">
-			<div class="presence-section__map">
+			<Card as="div" variant="subtle" class="presence-section__map">
 				<p>Map / diagram placeholder</p>
 				<p>Future layer: footprint and market indicators</p>
-			</div>
+			</Card>
 		</div>
 	</div>
 </SectionShell>
@@ -75,7 +75,7 @@
 	.presence-section__columns h3 {
 		margin: 0 0 var(--space-2);
 		font-family: var(--font-family-body);
-		font-size: 0.86rem;
+		font-size: var(--font-size-small);
 		font-weight: 700;
 		text-transform: uppercase;
 		letter-spacing: 0.08em;
@@ -87,7 +87,7 @@
 	}
 
 	.presence-section__columns li {
-		font-size: 0.97rem;
+		font-size: var(--font-size-body-sm);
 		line-height: 1.55;
 		color: var(--color-text-primary);
 	}
@@ -96,14 +96,13 @@
 		display: grid;
 	}
 
-	.presence-section__map {
+	:global(.presence-section__map) {
 		display: grid;
 		align-content: center;
 		gap: var(--space-2);
 		min-height: 19rem;
-		padding: var(--space-6);
-		border-radius: var(--radius-md);
-		border: 1px dashed color-mix(in oklab, var(--color-accent) 42%, var(--color-border-soft));
+		border-style: dashed;
+		border-color: color-mix(in oklab, var(--color-accent) 42%, var(--color-border-soft));
 		background:
 			linear-gradient(
 				150deg,
@@ -119,9 +118,9 @@
 			);
 	}
 
-	.presence-section__map p {
+	:global(.presence-section__map p) {
 		margin: 0;
-		font-size: 0.92rem;
+		font-size: var(--font-size-caption);
 		font-weight: 600;
 		color: var(--color-text-muted);
 	}
@@ -132,7 +131,7 @@
 			grid-template-columns: 1fr;
 		}
 
-		.presence-section__map {
+		:global(.presence-section__map) {
 			min-height: 15rem;
 		}
 	}

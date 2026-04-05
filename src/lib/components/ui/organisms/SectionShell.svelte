@@ -3,11 +3,12 @@
 		title: string;
 		eyebrow?: string;
 		id?: string;
-		content?: string;
+		description?: string;
+		showDivider?: boolean;
 		children?: import('svelte').Snippet;
 	};
 
-	let { title, eyebrow, id, content, children }: Props = $props();
+	let { title, eyebrow, id, description, showDivider = true, children }: Props = $props();
 </script>
 
 <section class="section-shell" {id} aria-label={title}>
@@ -18,13 +19,13 @@
 
 		<h2 class="section-shell__title">{title}</h2>
 
-		{#if content}
-			<p class="section-shell__content">{content}</p>
+		{#if description}
+			<p class="section-shell__description">{description}</p>
 		{/if}
 	</header>
 
 	{#if children}
-		<div class="section-shell__slot">
+		<div class:section-shell__slot--with-divider={showDivider} class="section-shell__slot">
 			{@render children()}
 		</div>
 	{/if}
@@ -38,7 +39,7 @@
 	.section-shell__header {
 		display: grid;
 		gap: var(--space-4);
-		max-width: 66ch;
+		max-width: var(--section-heading-max-width);
 	}
 
 	.section-shell__eyebrow {
@@ -54,17 +55,20 @@
 		margin: 0;
 	}
 
-	.section-shell__content {
+	.section-shell__description {
 		margin: 0;
-		max-width: 62ch;
+		max-width: var(--section-copy-max-width);
 		color: var(--color-text-muted);
 	}
 
 	.section-shell__slot {
 		margin-top: var(--space-8);
-		padding-top: var(--space-6);
-		border-top: 1px solid var(--color-border-soft);
 		display: grid;
 		gap: var(--space-4);
+	}
+
+	.section-shell__slot--with-divider {
+		padding-top: var(--space-6);
+		border-top: 1px solid var(--color-border-soft);
 	}
 </style>

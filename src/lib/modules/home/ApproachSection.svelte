@@ -1,6 +1,5 @@
 <script lang="ts">
-	import SectionShell from '$lib/components/SectionShell.svelte';
-	import ApproachStep from '$lib/modules/home/shared/ApproachStep.svelte';
+	import { ProcessStep, SectionShell } from '$lib/components/ui';
 
 	const steps = [
 		{
@@ -35,12 +34,12 @@
 	id="approach"
 	eyebrow="Approach"
 	title="A transparent process designed for operational confidence."
-	content="The engagement model is intentionally simple to scan: each phase has a clear function and measurable output."
+	description="The engagement model is intentionally simple to scan: each phase has a clear function and measurable output."
 >
 	<ol class="approach-steps" aria-label="Delivery approach timeline">
 		{#each steps as item, index (item.title)}
 			<li class="approach-steps__item">
-				<ApproachStep
+				<ProcessStep
 					step={`${index + 1}`.padStart(2, '0')}
 					title={item.title}
 					description={item.description}

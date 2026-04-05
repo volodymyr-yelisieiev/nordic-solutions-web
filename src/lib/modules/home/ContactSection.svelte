@@ -1,5 +1,5 @@
 <script lang="ts">
-	import SectionShell from '$lib/components/SectionShell.svelte';
+	import { Button, Card, FormField, SectionShell, TextInput, Textarea } from '$lib/components/ui';
 
 	const handleSubmit = (event: SubmitEvent) => {
 		event.preventDefault();
@@ -10,10 +10,10 @@
 	id="contact"
 	eyebrow="Contact"
 	title="Start a focused conversation about your project context."
-	content="Use direct contact details or send a short brief through the form below."
+	description="Use direct contact details or send a short brief through the form below."
 >
 	<div class="contact-section__layout">
-		<section class="contact-section__details" aria-label="Direct contact details">
+		<Card as="section" variant="subtle" padding="lg" class="contact-section__details">
 			<h3>Direct Contact</h3>
 			<p>
 				We usually begin with a compact discussion about scope, timeline expectations, and partner
@@ -22,45 +22,56 @@
 
 			<ul class="contact-section__list">
 				<li>
-					<span>Email</span>
+					<span class="contact-section__label">Email</span>
 					<a href="mailto:hello@nordicsolutions.ae">hello@nordicsolutions.ae</a>
 				</li>
 				<li>
-					<span>Phone</span>
+					<span class="contact-section__label">Phone</span>
 					<a href="tel:+97120004900">+971 2 000 4900</a>
 				</li>
 				<li>
-					<span>Location</span>
+					<span class="contact-section__label">Location</span>
 					<p>Abu Dhabi Global Market, Al Maryah Island, Abu Dhabi, UAE</p>
 				</li>
 			</ul>
-		</section>
+		</Card>
 
-		<section class="contact-section__form-wrap" aria-label="Contact form">
+		<Card as="section" variant="elevated" padding="lg" class="contact-section__form-wrap">
 			<form class="contact-section__form" onsubmit={handleSubmit}>
-				<label>
-					<span>Name</span>
-					<input name="name" type="text" autocomplete="name" required />
-				</label>
+				<FormField inputId="contact-name" label="Name" required={true}>
+					<TextInput id="contact-name" name="name" type="text" autocomplete="name" required />
+				</FormField>
 
-				<label>
-					<span>Work Email</span>
-					<input name="email" type="email" autocomplete="email" required />
-				</label>
+				<FormField
+					inputId="contact-email"
+					label="Work Email"
+					helper="Use your corporate email for a faster reply."
+					required={true}
+				>
+					<TextInput id="contact-email" name="email" type="email" autocomplete="email" required />
+				</FormField>
 
-				<label>
-					<span>Organization</span>
-					<input name="organization" type="text" autocomplete="organization" />
-				</label>
+				<FormField inputId="contact-organization" label="Organization">
+					<TextInput
+						id="contact-organization"
+						name="organization"
+						type="text"
+						autocomplete="organization"
+					/>
+				</FormField>
 
-				<label>
-					<span>Brief Message</span>
-					<textarea name="message" rows="4" required></textarea>
-				</label>
+				<FormField
+					inputId="contact-message"
+					label="Brief Message"
+					helper="Share scope, expected timeline, and key stakeholders."
+					required={true}
+				>
+					<Textarea id="contact-message" name="message" rows={4} required></Textarea>
+				</FormField>
 
-				<button type="submit">Send Request</button>
+				<Button type="submit" size="lg" class="contact-section__submit">Send Request</Button>
 			</form>
-		</section>
+		</Card>
 	</div>
 </SectionShell>
 
@@ -72,21 +83,16 @@
 		align-items: start;
 	}
 
-	.contact-section__details {
-		display: grid;
-		gap: var(--space-4);
-		padding: var(--space-5);
-		border: 1px solid var(--color-border-soft);
-		border-radius: var(--radius-md);
-		background: color-mix(in oklab, var(--color-bg-subtle) 72%, white);
+	:global(.contact-section__details) {
+		height: 100%;
 	}
 
-	.contact-section__details h3 {
+	:global(.contact-section__details h3) {
 		margin: 0;
-		font-size: 1.14rem;
+		font-size: var(--font-size-h4);
 	}
 
-	.contact-section__details p {
+	:global(.contact-section__details p) {
 		margin: 0;
 		color: var(--color-text-muted);
 	}
@@ -104,8 +110,8 @@
 		gap: var(--space-1);
 	}
 
-	.contact-section__list span {
-		font-size: 0.78rem;
+	.contact-section__label {
+		font-size: var(--font-size-kicker);
 		font-weight: 700;
 		text-transform: uppercase;
 		letter-spacing: 0.08em;
@@ -119,16 +125,13 @@
 	}
 
 	.contact-section__list li p {
-		font-size: 0.95rem;
+		font-size: var(--font-size-body-sm);
 		line-height: 1.5;
 		color: var(--color-text-primary);
 	}
 
-	.contact-section__form-wrap {
-		padding: var(--space-5);
-		border: 1px solid var(--color-border-soft);
-		border-radius: var(--radius-md);
-		background: color-mix(in oklab, var(--color-bg-elevated) 88%, white);
+	:global(.contact-section__form-wrap) {
+		height: 100%;
 	}
 
 	.contact-section__form {
@@ -136,44 +139,8 @@
 		gap: var(--space-4);
 	}
 
-	.contact-section__form label {
-		display: grid;
-		gap: var(--space-2);
-	}
-
-	.contact-section__form span {
-		font-size: var(--font-size-small);
-		font-weight: 600;
-		color: var(--color-text-muted);
-	}
-
-	.contact-section__form :is(input, textarea) {
-		width: 100%;
-		font: inherit;
-		padding: 0.72rem 0.78rem;
-		border-radius: var(--radius-sm);
-		border: 1px solid var(--color-border-soft);
-		background: color-mix(in oklab, var(--color-bg-elevated) 91%, white);
-		color: var(--color-text-primary);
-	}
-
-	.contact-section__form :is(input, textarea):focus {
-		outline: 2px solid color-mix(in oklab, var(--color-accent) 30%, white);
-		outline-offset: 1px;
-	}
-
-	.contact-section__form button {
+	:global(.contact-section__submit) {
 		width: fit-content;
-		min-height: 2.85rem;
-		padding-inline: 1.2rem;
-		border-radius: var(--radius-pill);
-		border: 1px solid color-mix(in oklab, var(--color-accent) 66%, var(--color-border-soft));
-		background: color-mix(in oklab, var(--color-accent-soft) 55%, var(--color-bg-elevated));
-		font: inherit;
-		font-size: 0.95rem;
-		font-weight: 640;
-		color: color-mix(in oklab, var(--color-accent) 86%, black);
-		cursor: pointer;
 	}
 
 	@media (max-width: 900px) {
@@ -181,7 +148,7 @@
 			grid-template-columns: 1fr;
 		}
 
-		.contact-section__form button {
+		:global(.contact-section__submit) {
 			width: 100%;
 		}
 	}

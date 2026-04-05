@@ -1,6 +1,5 @@
 <script lang="ts">
-	import SectionShell from '$lib/components/SectionShell.svelte';
-	import HomeStatCard from '$lib/modules/home/shared/HomeStatCard.svelte';
+	import { SectionShell, StatCard } from '$lib/components/ui';
 
 	const stats = [
 		{
@@ -32,7 +31,7 @@
 	id="about"
 	eyebrow="About"
 	title="A discreet corporate partner for complex international initiatives."
-	content="Nordic Solutions combines strategic framing with hands-on implementation support for organizations operating in demanding environments."
+	description="Nordic Solutions combines strategic framing with hands-on implementation support for organizations operating in demanding environments."
 >
 	<div class="about-section__layout">
 		<div class="about-section__text">
@@ -48,7 +47,7 @@
 
 		<div class="about-section__stats" aria-label="Key company facts">
 			{#each stats as stat (stat.label)}
-				<HomeStatCard value={stat.value} label={stat.label} detail={stat.detail} />
+				<StatCard value={stat.value} label={stat.label} detail={stat.detail} />
 			{/each}
 		</div>
 	</div>

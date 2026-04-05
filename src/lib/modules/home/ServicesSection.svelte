@@ -1,6 +1,5 @@
 <script lang="ts">
-	import SectionShell from '$lib/components/SectionShell.svelte';
-	import HomeCard from '$lib/modules/home/shared/HomeCard.svelte';
+	import { FeatureCard, SectionShell } from '$lib/components/ui';
 
 	const capabilities = [
 		{
@@ -40,11 +39,11 @@
 	id="services"
 	eyebrow="Services"
 	title="Capabilities built for high-accountability delivery environments."
-	content="We present broad, corporate-safe capabilities that reflect practical execution depth without exposing sensitive detail."
+	description="We present broad, corporate-safe capabilities that reflect practical execution depth without exposing sensitive detail."
 >
 	<div class="services-section__grid" aria-label="Core capabilities">
 		{#each capabilities as item (item.title)}
-			<HomeCard title={item.title} description={item.description} icon={item.icon} />
+			<FeatureCard title={item.title} description={item.description} badge={item.icon} />
 		{/each}
 	</div>
 </SectionShell>

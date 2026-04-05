@@ -1,5 +1,5 @@
 <script lang="ts">
-	import SectionShell from '$lib/components/SectionShell.svelte';
+	import { SectionShell } from '$lib/components/ui';
 
 	type Props = {
 		pageTitle: string;
@@ -11,7 +11,7 @@
 	const sectionId = $derived(routePath === '/' ? 'home' : routePath.slice(1));
 </script>
 
-<SectionShell id={sectionId} eyebrow="Section Placeholder" title={pageTitle} content={purpose}>
+<SectionShell id={sectionId} eyebrow="Section Placeholder" title={pageTitle} description={purpose}>
 	<p>This page is scaffolded and ready for section-specific content in the next sprint.</p>
 	<p class="route-path">Route: {routePath}</p>
 </SectionShell>
