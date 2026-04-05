@@ -121,20 +121,22 @@
 	.app-footer__links a {
 		display: inline-flex;
 		align-items: center;
-		min-height: 2.15rem;
+		min-height: 1.8rem;
 		padding-inline: var(--space-1);
 		color: var(--color-text-primary);
-		text-decoration: none;
+		text-decoration-line: underline;
+		text-decoration-thickness: 0.08em;
+		text-decoration-color: transparent;
+		text-underline-offset: 0.24em;
 		font-size: 0.95rem;
-		border-radius: var(--radius-sm);
 		transition:
-			background-color var(--duration-base) var(--ease-standard),
+			text-decoration-color var(--duration-base) var(--ease-standard),
 			color var(--duration-base) var(--ease-standard);
 	}
 
 	@media (hover: hover) {
 		.app-footer__links a:hover {
-			background: color-mix(in oklab, var(--color-bg-elevated) 78%, white);
+			text-decoration-color: color-mix(in oklab, var(--color-text-primary) 56%, transparent);
 		}
 	}
 

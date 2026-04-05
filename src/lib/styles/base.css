@@ -184,7 +184,7 @@ ol {
 	padding-inline-start: var(--space-6);
 }
 
-li + li {
+:where(ul:not([class]), ol:not([class])) > li + li {
 	margin-top: var(--space-2);
 }
 

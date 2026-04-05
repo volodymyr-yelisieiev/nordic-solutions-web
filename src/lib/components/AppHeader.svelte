@@ -66,12 +66,14 @@
 		activeSectionId = sectionId;
 	};
 
-	const handleSectionNavigation = (item: NavigationItem) => {
+	const handleSectionNavigation = (item: NavigationItem, event?: MouseEvent) => {
 		isMobileMenuOpen = false;
 
 		if (!browser || currentPathname !== '/' || item.target !== 'home-section') {
 			return;
 		}
+
+		event?.preventDefault();
 
 		scrollToSection(sectionIdFromHref(item.href));
 	};
@@ -217,27 +219,21 @@
 			<ul class="app-header__list">
 				{#each navigation as item (item.key)}
 					<li>
-						{#if currentPathname === '/'}
-							<button
-								type="button"
-								class:app-header__link--active={isItemActive(item)}
-								class="app-header__link app-header__link-button"
-								onclick={() => handleSectionNavigation(item)}
-								aria-current={isItemActive(item) ? 'page' : undefined}
-							>
-								{item.title}
-							</button>
-						{:else}
-							<a
-								class:app-header__link--active={isItemActive(item)}
-								class="app-header__link"
-								href={resolve(item.routePath)}
-								onclick={() => (isMobileMenuOpen = false)}
-								aria-current={isItemActive(item) ? 'page' : undefined}
-							>
-								{item.title}
-							</a>
-						{/if}
+						<a
+							class:app-header__link--active={isItemActive(item)}
+							class="app-header__link"
+							href={resolve(
+								currentPathname === '/'
+									? item.href === '#hero'
+										? '/'
+										: `/${item.href}`
+									: item.routePath
+							)}
+							onclick={(event) => handleSectionNavigation(item, event)}
+							aria-current={isItemActive(item) ? 'page' : undefined}
+						>
+							{item.title}
+						</a>
 					</li>
 				{/each}
 			</ul>
@@ -276,27 +272,21 @@
 			<ul class="app-header__mobile-list" id="app-mobile-navigation">
 				{#each navigation as item (item.key)}
 					<li>
-						{#if currentPathname === '/'}
-							<button
-								type="button"
-								class:app-header__mobile-link--active={isItemActive(item)}
-								class="app-header__mobile-link app-header__mobile-link-button"
-								onclick={() => handleSectionNavigation(item)}
-								aria-current={isItemActive(item) ? 'page' : undefined}
-							>
-								{item.title}
-							</button>
-						{:else}
-							<a
-								class:app-header__mobile-link--active={isItemActive(item)}
-								class="app-header__mobile-link"
-								href={resolve(item.routePath)}
-								onclick={() => (isMobileMenuOpen = false)}
-								aria-current={isItemActive(item) ? 'page' : undefined}
-							>
-								{item.title}
-							</a>
-						{/if}
+						<a
+							class:app-header__mobile-link--active={isItemActive(item)}
+							class="app-header__mobile-link"
+							href={resolve(
+								currentPathname === '/'
+									? item.href === '#hero'
+										? '/'
+										: `/${item.href}`
+									: item.routePath
+							)}
+							onclick={(event) => handleSectionNavigation(item, event)}
+							aria-current={isItemActive(item) ? 'page' : undefined}
+						>
+							{item.title}
+						</a>
 					</li>
 				{/each}
 			</ul>
@@ -391,30 +381,25 @@
 		display: inline-flex;
 		align-items: center;
 		justify-content: center;
-		min-height: 2.5rem;
+		min-height: 1.8rem;
 		padding-inline: var(--space-2);
-		border-radius: var(--radius-pill);
-		text-decoration: none;
+		text-decoration-line: underline;
+		text-decoration-thickness: 0.08em;
+		text-decoration-color: transparent;
+		text-underline-offset: 0.25em;
 		font-size: 0.95rem;
 		font-weight: 500;
 		color: var(--color-text-muted);
 		transition:
 			color var(--duration-base) var(--ease-standard),
-			background-color var(--duration-base) var(--ease-standard),
+			text-decoration-color var(--duration-base) var(--ease-standard),
 			transform var(--duration-fast) var(--ease-emphasis);
-	}
-
-	.app-header__link-button {
-		border: 0;
-		background: transparent;
-		font: inherit;
-		cursor: pointer;
 	}
 
 	@media (hover: hover) {
 		.app-header__link:hover {
 			color: var(--color-text-primary);
-			background: color-mix(in oklab, var(--color-bg-subtle) 80%, white);
+			text-decoration-color: color-mix(in oklab, var(--color-text-primary) 56%, transparent);
 		}
 	}
 
@@ -424,7 +409,7 @@
 
 	.app-header__link--active {
 		color: var(--color-text-primary);
-		background: color-mix(in oklab, var(--color-accent-soft) 74%, var(--color-bg-elevated));
+		text-decoration-color: var(--color-text-primary);
 	}
 
 	:global(.app-header__cta) {
@@ -513,31 +498,25 @@
 		width: 100%;
 		min-height: 2.9rem;
 		padding-inline: var(--space-2);
-		border-radius: var(--radius-sm);
-		text-decoration: none;
+		text-decoration-line: underline;
+		text-decoration-thickness: 0.08em;
+		text-decoration-color: transparent;
+		text-underline-offset: 0.25em;
 		font-size: 1rem;
 		font-weight: 500;
 		color: var(--color-text-primary);
 		transition:
-			background-color var(--duration-base) var(--ease-standard),
+			text-decoration-color var(--duration-base) var(--ease-standard),
 			transform var(--duration-fast) var(--ease-emphasis);
 	}
 
-	.app-header__mobile-link-button {
-		border: 0;
-		background: transparent;
-		font: inherit;
-		cursor: pointer;
-		text-align: left;
-	}
-
 	.app-header__mobile-link--active {
-		background: color-mix(in oklab, var(--color-accent-soft) 68%, var(--color-bg-elevated));
+		text-decoration-color: var(--color-text-primary);
 	}
 
 	@media (hover: hover) {
 		.app-header__mobile-link:hover {
-			background: color-mix(in oklab, var(--color-bg-subtle) 78%, white);
+			text-decoration-color: color-mix(in oklab, var(--color-text-primary) 56%, transparent);
 		}
 	}
 
