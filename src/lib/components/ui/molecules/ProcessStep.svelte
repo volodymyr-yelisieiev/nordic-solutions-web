@@ -46,4 +46,11 @@
 		line-height: var(--line-height-body);
 		color: var(--color-text-muted);
 	}
+
+	@media (max-width: 960px) {
+		.process-step__title,
+		.process-step__description {
+			padding-inline-start: calc(var(--step-badge-size) + var(--space-3));
+		}
+	}
 </style>
