@@ -16,6 +16,7 @@
 	let isMobileMenuOpen = $state(false);
 	let isHeaderElevated = $state(false);
 	let activeSectionId = $state<HomeSectionId>('hero');
+	let homeSections: HTMLElement[] = [];
 
 	const currentPathname = $derived(page.url.pathname);
 	const primaryItem = $derived(navigation.find((item) => item.isPrimary) ?? null);
@@ -23,6 +24,58 @@
 	const sectionIdFromHref = (href: NavigationItem['href']): HomeSectionId =>
 		href.slice(1) as HomeSectionId;
 	const sectionIds = $derived(navigation.map((item) => sectionIdFromHref(item.href)));
+
+	const getHeaderActivationOffset = (): number => {
+		if (!browser) {
+			return 0;
+		}
+
+		const header = document.querySelector('.app-header');
+
+		if (!(header instanceof HTMLElement)) {
+			return 0;
+		}
+
+		return header.offsetHeight + 24;
+	};
+
+	const collectHomeSections = () => {
+		if (!browser || currentPathname !== '/') {
+			homeSections = [];
+			return;
+		}
+
+		homeSections = sectionIds
+			.map((id) => document.getElementById(id))
+			.filter((section): section is HTMLElement => section !== null)
+			.sort((a, b) => a.offsetTop - b.offsetTop);
+	};
+
+	const syncActiveFromScroll = () => {
+		if (!browser || currentPathname !== '/' || homeSections.length === 0) {
+			return;
+		}
+
+		const activationLine = window.scrollY + getHeaderActivationOffset();
+		let nextActiveSection: HomeSectionId = 'hero';
+
+		for (const section of homeSections) {
+			const sectionId = section.id as HomeSectionId;
+
+			if (!sectionIds.includes(sectionId)) {
+				continue;
+			}
+
+			if (section.offsetTop <= activationLine) {
+				nextActiveSection = sectionId;
+				continue;
+			}
+
+			break;
+		}
+
+		activeSectionId = nextActiveSection;
+	};
 
 	const isItemActive = (item: NavigationItem): boolean => {
 		if (currentPathname === '/') {
@@ -44,9 +97,7 @@
 			return;
 		}
 
-		if (window.scrollY < 8) {
-			activeSectionId = 'hero';
-		}
+		syncActiveFromScroll();
 	};
 
 	const scrollToSection = (sectionId: HomeSectionId) => {
@@ -107,11 +158,11 @@
 			return;
 		}
 
-		let observer: IntersectionObserver | null = null;
 		let cancelled = false;
 
-		const mountObserver = async () => {
+		const mountSections = async () => {
 			if (currentPathname !== '/') {
+				homeSections = [];
 				return;
 			}
 
@@ -121,45 +172,16 @@
 				return;
 			}
 
-			const sections = sectionIds
-				.map((id) => document.getElementById(id))
-				.filter((section): section is HTMLElement => section !== null);
-
-			if (sections.length === 0) {
-				return;
-			}
-
-			observer = new IntersectionObserver(
-				(entries) => {
-					const visible = entries
-						.filter((entry) => entry.isIntersecting)
-						.sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
-
-					if (!visible) {
-						return;
-					}
-
-					const sectionId = visible.target.id as HomeSectionId;
-
-					if (sectionIds.includes(sectionId)) {
-						activeSectionId = sectionId;
-					}
-				},
-				{
-					rootMargin: '-45% 0px -45% 0px',
-					threshold: [0.2, 0.45, 0.7]
-				}
-			);
-
-			sections.forEach((section) => observer?.observe(section));
+			collectHomeSections();
+			syncActiveFromScroll();
 			syncActiveFromHash();
 		};
 
-		void mountObserver();
+		void mountSections();
 
 		return () => {
 			cancelled = true;
-			observer?.disconnect();
+			homeSections = [];
 		};
 	});
 
@@ -170,12 +192,16 @@
 
 		const onScroll = () => {
 			isHeaderElevated = window.scrollY > 6;
+			syncActiveFromScroll();
 		};
 
 		const onResize = () => {
 			if (window.innerWidth >= 960) {
 				isMobileMenuOpen = false;
 			}
+
+			collectHomeSections();
+			syncActiveFromScroll();
 		};
 
 		const onHashChange = () => {
@@ -188,6 +214,7 @@
 			}
 		};
 
+		collectHomeSections();
 		onScroll();
 		syncActiveFromHash();
 
@@ -418,10 +445,10 @@
 
 	.app-header__menu-toggle {
 		display: none;
+		position: relative;
+		--menu-line-offset: 0.4rem;
 		align-items: center;
 		justify-content: center;
-		flex-direction: column;
-		gap: 0.28rem;
 		width: 2.8rem;
 		height: 2.8rem;
 		margin-left: auto;
@@ -436,6 +463,9 @@
 	}
 
 	.app-header__menu-line {
+		position: absolute;
+		left: 50%;
+		top: 50%;
 		width: 1.25rem;
 		height: 2px;
 		border-radius: var(--radius-pill);
@@ -446,16 +476,29 @@
 			opacity var(--duration-fast) var(--ease-standard);
 	}
 
+	.app-header__menu-line:nth-child(1) {
+		transform: translate(-50%, calc(-50% - var(--menu-line-offset)));
+	}
+
+	.app-header__menu-line:nth-child(2) {
+		transform: translate(-50%, -50%);
+	}
+
+	.app-header__menu-line:nth-child(3) {
+		transform: translate(-50%, calc(-50% + var(--menu-line-offset)));
+	}
+
 	.app-header__menu-toggle[aria-expanded='true'] .app-header__menu-line:nth-child(1) {
-		transform: translateY(0.37rem) rotate(45deg);
+		transform: translate(-50%, -50%) rotate(45deg);
 	}
 
 	.app-header__menu-toggle[aria-expanded='true'] .app-header__menu-line:nth-child(2) {
 		opacity: 0;
+		transform: translate(-50%, -50%) scaleX(0.7);
 	}
 
 	.app-header__menu-toggle[aria-expanded='true'] .app-header__menu-line:nth-child(3) {
-		transform: translateY(-0.37rem) rotate(-45deg);
+		transform: translate(-50%, -50%) rotate(-45deg);
 	}
 
 	@media (hover: hover) {

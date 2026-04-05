@@ -51,12 +51,20 @@
 
 <style>
 	.approach-steps {
+		--approach-connector-color: color-mix(
+			in oklab,
+			var(--color-accent) 28%,
+			var(--color-border-soft)
+		);
+		--approach-connector-gap-x: var(--space-4);
+		--approach-connector-gap-y: var(--space-5);
+		--approach-anchor-center: calc(var(--card-padding-md) + (var(--step-badge-size) / 2));
 		margin: 0;
 		padding: 0;
 		list-style: none;
 		display: grid;
 		grid-template-columns: repeat(5, minmax(0, 1fr));
-		gap: var(--space-4);
+		gap: var(--approach-connector-gap-x);
 	}
 
 	.approach-steps__item {
@@ -66,11 +74,11 @@
 	.approach-steps__item::after {
 		content: '';
 		position: absolute;
-		top: 1.1rem;
-		left: calc(50% + 1.4rem);
-		width: calc(100% - 2.8rem);
+		top: var(--approach-anchor-center);
+		left: calc(var(--card-padding-md) + var(--step-badge-size));
+		width: calc(100% + var(--approach-connector-gap-x) - var(--step-badge-size));
 		height: 1px;
-		background: color-mix(in oklab, var(--color-accent) 28%, var(--color-border-soft));
+		background: var(--approach-connector-color);
 	}
 
 	.approach-steps__item:last-child::after {
@@ -80,14 +88,14 @@
 	@media (max-width: 960px) {
 		.approach-steps {
 			grid-template-columns: 1fr;
-			gap: var(--space-5);
+			gap: var(--approach-connector-gap-y);
 		}
 
 		.approach-steps__item::after {
-			top: calc(100% + 0.55rem);
-			left: 1.12rem;
+			top: calc(var(--card-padding-md) + var(--step-badge-size));
+			left: var(--approach-anchor-center);
 			width: 1px;
-			height: var(--space-4);
+			height: calc(100% + var(--approach-connector-gap-y) - var(--step-badge-size));
 		}
 	}
 </style>
