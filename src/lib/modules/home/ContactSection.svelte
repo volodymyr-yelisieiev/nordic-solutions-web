@@ -5,7 +5,6 @@
 		type ContactFormValues,
 		validateContactForm
 	} from '$lib/modules/home/contact-form';
-	import { revealOnView } from '$lib/modules/home/reveal-on-view';
 
 	const defaultValues: ContactFormValues = {
 		name: '',
@@ -85,11 +84,7 @@
 	title="Start a focused conversation about your project context."
 	description="Use direct contact details or send a short brief through the form below."
 >
-	<div
-		class="contact-section__layout"
-		style="--section-reveal-progress: 0"
-		use:revealOnView={{ threshold: 0.15 }}
-	>
+	<div class="contact-section__layout reveal-stagger">
 		<div class="contact-section__panel">
 			<Card as="section" variant="subtle" padding="lg" class="contact-section__details">
 				<h3>Direct Contact</h3>
@@ -115,7 +110,7 @@
 			</Card>
 		</div>
 
-		<div class="contact-section__panel contact-section__panel--delayed">
+		<div class="contact-section__panel">
 			<Card as="section" variant="elevated" padding="lg" class="contact-section__form-wrap">
 				<form class="contact-section__form" onsubmit={handleSubmit} novalidate>
 					<FormField inputId="contact-name" label="Name" required={true} error={errors.name}>
@@ -214,15 +209,7 @@
 	}
 
 	.contact-section__panel {
-		opacity: var(--section-reveal-progress, 0);
-		transform: translateY(calc((1 - var(--section-reveal-progress, 0)) * 0.75rem));
-		transition:
-			opacity 520ms var(--ease-emphasis),
-			transform 520ms var(--ease-emphasis);
-	}
-
-	.contact-section__panel--delayed {
-		transition-delay: 130ms;
+		min-width: 0;
 	}
 
 	:global(.contact-section__details) {
@@ -301,6 +288,19 @@
 		border-radius: var(--radius-sm);
 		font-size: var(--font-size-small);
 		line-height: 1.45;
+		animation: contact-status-enter var(--duration-base) var(--ease-expressive);
+	}
+
+	@keyframes contact-status-enter {
+		from {
+			opacity: 0;
+			transform: translateY(0.35rem);
+		}
+
+		to {
+			opacity: 1;
+			transform: translateY(0);
+		}
 	}
 
 	.contact-section__status--error {
@@ -337,14 +337,6 @@
 		:global(.contact-section__details),
 		:global(.contact-section__form-wrap) {
 			padding: var(--space-4);
-		}
-	}
-
-	@media (prefers-reduced-motion: reduce) {
-		.contact-section__panel {
-			opacity: 1;
-			transform: none;
-			transition: none;
 		}
 	}
 </style>

@@ -39,12 +39,28 @@
 		display: grid;
 		gap: var(--card-content-gap);
 		border-radius: var(--radius-md);
-		border: 1px solid var(--color-border-soft);
+		overflow: hidden;
+		border: 1px solid var(--glass-border);
 		position: relative;
+		isolation: isolate;
+		backdrop-filter: var(--glass-blur-sm);
+		-webkit-backdrop-filter: var(--glass-blur-sm);
+		will-change: transform;
 		transition:
 			border-color var(--duration-base) var(--ease-standard),
 			box-shadow var(--duration-base) var(--ease-standard),
+			background-color var(--duration-base) var(--ease-standard),
 			transform var(--duration-fast) var(--ease-emphasis);
+	}
+
+	.ui-card::before {
+		content: '';
+		position: absolute;
+		inset: 0;
+		pointer-events: none;
+		background: linear-gradient(180deg, rgb(255 255 255 / 0.44), rgb(255 255 255 / 0));
+		opacity: 0.68;
+		transition: opacity var(--duration-base) var(--ease-standard);
 	}
 
 	.ui-card--md {
@@ -56,30 +72,44 @@
 	}
 
 	.ui-card--elevated {
-		background: color-mix(in oklab, var(--color-bg-elevated) 86%, white);
-		box-shadow: var(--shadow-sm);
+		background: linear-gradient(
+			162deg,
+			color-mix(in oklab, var(--glass-surface-strong) 90%, white),
+			color-mix(in oklab, var(--glass-surface) 84%, var(--color-bg-subtle))
+		);
+		box-shadow: var(--glass-shadow-sm);
 	}
 
 	.ui-card--subtle {
-		background: color-mix(in oklab, var(--color-bg-subtle) 72%, white);
+		background: linear-gradient(
+			166deg,
+			color-mix(in oklab, var(--glass-surface) 76%, white),
+			color-mix(in oklab, var(--glass-surface-soft) 86%, var(--color-bg-canvas))
+		);
 	}
 
 	.ui-card--outlined {
-		background: transparent;
+		background: color-mix(in oklab, var(--glass-surface-soft) 52%, transparent);
+		border-color: color-mix(in oklab, var(--glass-border) 75%, var(--color-border-soft));
 	}
 
 	@media (hover: hover) {
 		.ui-card--elevated:hover,
 		.ui-card--subtle:hover {
-			transform: translateY(-2px);
-			border-color: color-mix(in oklab, var(--color-border-strong) 62%, var(--color-border-soft));
-			box-shadow: var(--shadow-md);
+			transform: translateY(-1px);
+			border-color: color-mix(in oklab, var(--glass-border-strong) 82%, var(--glass-border));
+			box-shadow: var(--glass-shadow-md);
+		}
+
+		.ui-card--elevated:hover::before,
+		.ui-card--subtle:hover::before {
+			opacity: 0.84;
 		}
 	}
 
 	.ui-card--elevated:focus-within,
 	.ui-card--subtle:focus-within {
-		border-color: color-mix(in oklab, var(--color-accent) 42%, var(--color-border-soft));
-		box-shadow: var(--shadow-md);
+		border-color: color-mix(in oklab, var(--color-accent) 34%, var(--glass-border));
+		box-shadow: var(--glass-shadow-md);
 	}
 </style>

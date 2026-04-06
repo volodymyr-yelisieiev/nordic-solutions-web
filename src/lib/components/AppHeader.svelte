@@ -291,7 +291,12 @@
 		</button>
 	</div>
 
-	<div class:app-header__mobile-panel--open={isMobileMenuOpen} class="app-header__mobile-panel">
+	<div
+		class:app-header__mobile-panel--open={isMobileMenuOpen}
+		class="app-header__mobile-panel"
+		aria-hidden={!isMobileMenuOpen}
+		inert={!isMobileMenuOpen}
+	>
 		<nav aria-label="Mobile navigation">
 			<ul class="app-header__mobile-list" id="app-mobile-navigation">
 				{#each navigationWithoutPrimary as item (item.key)}
@@ -347,14 +352,23 @@
 		position: sticky;
 		top: 0;
 		z-index: 30;
-		border-bottom: 1px solid var(--color-border-soft);
-		background: color-mix(in oklab, var(--color-bg-canvas) 92%, white);
-		backdrop-filter: blur(12px);
-		transition: box-shadow var(--duration-base) var(--ease-standard);
+		border-bottom: 1px solid color-mix(in oklab, var(--glass-border) 90%, transparent);
+		background: linear-gradient(
+			170deg,
+			color-mix(in oklab, var(--glass-surface-strong) 92%, white),
+			color-mix(in oklab, var(--glass-surface) 84%, var(--color-bg-subtle))
+		);
+		box-shadow: 0 1px 0 rgb(255 255 255 / 0.5);
+		backdrop-filter: var(--glass-blur-md);
+		-webkit-backdrop-filter: var(--glass-blur-md);
+		transition:
+			box-shadow var(--duration-base) var(--ease-standard),
+			border-color var(--duration-base) var(--ease-standard),
+			background-color var(--duration-base) var(--ease-standard);
 	}
 
 	.app-header--elevated {
-		box-shadow: 0 16px 28px -28px rgb(12 36 30 / 0.38);
+		box-shadow: var(--glass-shadow-md);
 	}
 
 	.app-header__inner {
@@ -411,7 +425,8 @@
 		align-items: center;
 		justify-content: center;
 		min-height: 1.8rem;
-		padding-inline: var(--space-2);
+		padding: var(--space-1) var(--space-2);
+		border-radius: var(--radius-pill);
 		text-decoration-line: underline;
 		text-decoration-thickness: 0.08em;
 		text-decoration-color: transparent;
@@ -422,12 +437,14 @@
 		transition:
 			color var(--duration-base) var(--ease-standard),
 			text-decoration-color var(--duration-base) var(--ease-standard),
+			background-color var(--duration-base) var(--ease-standard),
 			transform var(--duration-fast) var(--ease-emphasis);
 	}
 
 	@media (hover: hover) {
 		.app-header__link:hover {
 			color: var(--color-text-primary);
+			background: color-mix(in oklab, var(--glass-surface) 78%, white);
 			text-decoration-color: color-mix(in oklab, var(--color-text-primary) 56%, transparent);
 		}
 	}
@@ -438,6 +455,7 @@
 
 	.app-header__link--active {
 		color: var(--color-text-primary);
+		background: color-mix(in oklab, var(--glass-surface-strong) 72%, white);
 		text-decoration-color: var(--color-text-primary);
 	}
 
@@ -454,13 +472,17 @@
 		width: 2.8rem;
 		height: 2.8rem;
 		margin-left: auto;
-		border: 1px solid var(--color-border-soft);
+		border: 1px solid var(--glass-border);
 		border-radius: var(--radius-md);
-		background: color-mix(in oklab, var(--color-bg-elevated) 88%, white);
+		background: color-mix(in oklab, var(--glass-surface-strong) 74%, white);
+		box-shadow: var(--glass-shadow-sm);
+		backdrop-filter: var(--glass-blur-sm);
+		-webkit-backdrop-filter: var(--glass-blur-sm);
 		color: var(--color-text-primary);
 		transition:
 			background-color var(--duration-base) var(--ease-standard),
 			border-color var(--duration-base) var(--ease-standard),
+			box-shadow var(--duration-base) var(--ease-standard),
 			transform var(--duration-fast) var(--ease-emphasis);
 	}
 
@@ -505,7 +527,8 @@
 
 	@media (hover: hover) {
 		.app-header__menu-toggle:hover {
-			background: color-mix(in oklab, var(--color-bg-subtle) 74%, white);
+			background: color-mix(in oklab, var(--glass-surface-strong) 88%, white);
+			box-shadow: var(--glass-shadow-md);
 		}
 	}
 
@@ -518,15 +541,32 @@
 		padding-inline: var(--container-gutter);
 		max-height: 0;
 		overflow: hidden;
+		visibility: hidden;
+		pointer-events: none;
+		opacity: 0;
+		transform: translateY(-0.5rem);
+		background: linear-gradient(
+			180deg,
+			color-mix(in oklab, var(--glass-surface-strong) 92%, white),
+			color-mix(in oklab, var(--glass-surface) 86%, var(--color-bg-subtle))
+		);
+		backdrop-filter: var(--glass-blur-md);
+		-webkit-backdrop-filter: var(--glass-blur-md);
 		transition:
 			max-height 260ms var(--ease-emphasis),
+			opacity var(--duration-base) var(--ease-standard),
+			transform var(--duration-base) var(--ease-standard),
 			border-color var(--duration-base) var(--ease-standard);
 		border-top: 1px solid transparent;
 	}
 
 	.app-header__mobile-panel--open {
 		max-height: 70vh;
-		border-top-color: var(--color-border-soft);
+		visibility: visible;
+		pointer-events: auto;
+		opacity: 1;
+		transform: translateY(0);
+		border-top-color: color-mix(in oklab, var(--glass-border) 90%, transparent);
 	}
 
 	.app-header__mobile-list {
@@ -543,6 +583,7 @@
 		width: 100%;
 		min-height: 2.9rem;
 		padding-inline: var(--space-2);
+		border-radius: var(--radius-sm);
 		text-decoration-line: underline;
 		text-decoration-thickness: 0.08em;
 		text-decoration-color: transparent;
@@ -561,6 +602,7 @@
 
 	@media (hover: hover) {
 		.app-header__mobile-link:hover {
+			background: color-mix(in oklab, var(--glass-surface) 82%, white);
 			text-decoration-color: color-mix(in oklab, var(--color-text-primary) 56%, transparent);
 		}
 	}

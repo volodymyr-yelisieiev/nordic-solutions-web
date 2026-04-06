@@ -15,7 +15,7 @@
 	title="Regional footprint with a multi-market execution perspective."
 	description="This block is intentionally high-level: enough substance for credibility, without exposing confidential operational details."
 >
-	<div class="presence-section__layout">
+	<div class="presence-section__layout reveal-stagger">
 		<div class="presence-section__content">
 			<p>
 				Nordic Solutions coordinates projects through a networked operating model that combines

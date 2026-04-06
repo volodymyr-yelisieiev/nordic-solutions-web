@@ -13,7 +13,7 @@
 </script>
 
 <footer class="app-footer">
-	<div class="shell-container app-footer__grid">
+	<div class="shell-container app-footer__grid glass-panel">
 		<section class="app-footer__block">
 			<a class="app-footer__brand" href={resolve('/')} aria-label="Nordic Solutions home">
 				<img class="app-footer__logo" src="/Nordic_Solutions_Logo_Red.svg" alt="Nordic Solutions" />
@@ -55,12 +55,7 @@
 <style>
 	.app-footer {
 		margin-top: var(--space-12);
-		border-top: 1px solid var(--color-border-soft);
-		background: linear-gradient(
-			180deg,
-			color-mix(in oklab, var(--color-bg-subtle) 76%, white) 0%,
-			var(--color-bg-subtle) 100%
-		);
+		padding-bottom: var(--space-4);
 	}
 
 	.app-footer__grid {
@@ -68,6 +63,8 @@
 		grid-template-columns: 1.1fr 1fr 0.9fr;
 		gap: clamp(var(--space-6), 4.6vw, var(--space-10));
 		padding-block: clamp(var(--space-8), 5vw, var(--space-12));
+		padding-inline: clamp(var(--space-4), 3.6vw, var(--space-8));
+		border-radius: clamp(var(--radius-lg), 2vw, var(--radius-xl));
 	}
 
 	.app-footer__block {
@@ -114,6 +111,7 @@
 		text-decoration: none;
 		color: var(--color-text-primary);
 		border-radius: var(--radius-sm);
+		padding-inline: var(--space-1);
 		transition:
 			color var(--duration-base) var(--ease-standard),
 			background-color var(--duration-base) var(--ease-standard);
@@ -122,6 +120,7 @@
 	@media (hover: hover) {
 		.app-footer__contacts a:hover {
 			color: color-mix(in oklab, var(--color-accent) 82%, black);
+			background: color-mix(in oklab, var(--glass-surface) 74%, white);
 		}
 	}
 
@@ -151,6 +150,8 @@
 
 	@media (hover: hover) {
 		.app-footer__links a:hover {
+			color: var(--color-text-primary);
+			background: color-mix(in oklab, var(--glass-surface) 74%, white);
 			text-decoration-color: color-mix(in oklab, var(--color-text-primary) 56%, transparent);
 		}
 	}
@@ -164,8 +165,9 @@
 	}
 
 	.app-footer__meta {
+		margin-top: var(--space-4);
 		padding-block: var(--space-4) var(--space-5);
-		border-top: 1px solid color-mix(in oklab, var(--color-border-soft) 85%, transparent);
+		border-top: 1px solid color-mix(in oklab, var(--glass-border) 80%, transparent);
 		font-size: var(--font-size-small);
 		color: var(--color-text-muted);
 	}

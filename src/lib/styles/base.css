@@ -2,11 +2,11 @@
 	color-scheme: light;
 
 	/* Typography */
-	--font-family-display: 'Avenir Next', Avenir, 'Segoe UI', sans-serif;
-	--font-family-body: 'Avenir Next', Avenir, 'Segoe UI', sans-serif;
-	--font-size-hero: clamp(2.8rem, 5.1vw, 4.4rem);
-	--font-size-h1: clamp(2.2rem, 3.8vw, 3.1rem);
-	--font-size-h2: clamp(1.7rem, 2.7vw, 2.2rem);
+	--font-family-display: 'Avenir Next', 'Avenir Next LT Pro', 'Segoe UI', sans-serif;
+	--font-family-body: 'Avenir Next', 'Avenir Next LT Pro', 'Segoe UI', sans-serif;
+	--font-size-hero: clamp(2.6rem, 5.2vw, 4.6rem);
+	--font-size-h1: clamp(2.1rem, 3.9vw, 3.2rem);
+	--font-size-h2: clamp(1.7rem, 2.9vw, 2.3rem);
 	--font-size-h3: clamp(1.3rem, 1.6vw, 1.5rem);
 	--font-size-h4: 1.16rem;
 	--font-size-body: 1rem;
@@ -19,13 +19,13 @@
 	--line-height-body: 1.62;
 
 	/* Colors */
-	--color-bg-canvas: oklch(0.972 0.006 145);
-	--color-bg-subtle: oklch(0.952 0.008 145);
-	--color-bg-elevated: oklch(0.992 0.004 145);
-	--color-border-soft: oklch(0.882 0.01 145);
-	--color-border-strong: oklch(0.802 0.012 145);
-	--color-text-primary: oklch(0.248 0.021 155);
-	--color-text-muted: oklch(0.398 0.016 152);
+	--color-bg-canvas: oklch(0.972 0.009 238);
+	--color-bg-subtle: oklch(0.956 0.011 236);
+	--color-bg-elevated: oklch(0.988 0.006 234);
+	--color-border-soft: oklch(0.87 0.015 236);
+	--color-border-strong: oklch(0.77 0.019 234);
+	--color-text-primary: oklch(0.27 0.024 238);
+	--color-text-muted: oklch(0.43 0.018 236);
 	--color-accent: #e52228;
 	--color-accent-soft: color-mix(in oklab, var(--color-accent) 16%, white);
 	--color-success: oklch(0.59 0.12 150);
@@ -33,10 +33,28 @@
 	--color-danger: oklch(0.58 0.19 30);
 	--focus-ring-color: color-mix(in oklab, var(--color-accent) 58%, white);
 	--focus-ring-shadow: color-mix(in oklab, var(--color-accent) 22%, transparent);
+
+	/* Motion */
 	--ease-standard: cubic-bezier(0.25, 1, 0.5, 1);
 	--ease-emphasis: cubic-bezier(0.22, 1, 0.36, 1);
-	--duration-fast: 150ms;
-	--duration-base: 220ms;
+	--ease-expressive: cubic-bezier(0.16, 1, 0.3, 1);
+	--duration-fast: 170ms;
+	--duration-base: 260ms;
+	--duration-slow: 540ms;
+	--duration-page: 700ms;
+	--reveal-distance: 0.95rem;
+
+	/* Glass surface system */
+	--glass-border: color-mix(in oklab, white 66%, var(--color-border-soft));
+	--glass-border-strong: color-mix(in oklab, white 48%, var(--color-border-strong));
+	--glass-surface-soft: color-mix(in oklab, white 70%, var(--color-bg-canvas));
+	--glass-surface: color-mix(in oklab, white 78%, var(--color-bg-elevated));
+	--glass-surface-strong: color-mix(in oklab, white 88%, var(--color-bg-elevated));
+	--glass-shadow-sm: 0 1px 1px rgb(14 31 44 / 0.04), 0 10px 18px -18px rgb(14 31 44 / 0.16);
+	--glass-shadow-md: 0 1px 3px rgb(14 31 44 / 0.06), 0 14px 28px -22px rgb(14 31 44 / 0.24);
+	--glass-shadow-lg: 0 2px 6px rgb(14 31 44 / 0.08), 0 22px 40px -28px rgb(14 31 44 / 0.28);
+	--glass-blur-sm: blur(11px) saturate(130%);
+	--glass-blur-md: blur(18px) saturate(145%);
 
 	/* 4px spacing scale */
 	--space-1: 0.25rem;
@@ -53,10 +71,11 @@
 	/* Radii and shadows */
 	--radius-sm: 0.375rem;
 	--radius-md: 0.625rem;
-	--radius-lg: 0.9rem;
+	--radius-lg: 0.95rem;
+	--radius-xl: 1.35rem;
 	--radius-pill: 999px;
-	--shadow-sm: 0 1px 2px rgb(19 34 24 / 0.06);
-	--shadow-md: 0 10px 22px -18px rgb(19 34 24 / 0.24);
+	--shadow-sm: var(--glass-shadow-sm);
+	--shadow-md: var(--glass-shadow-md);
 	--card-padding-md: var(--space-4);
 	--card-padding-lg: clamp(var(--space-4), 2vw, var(--space-6));
 	--card-content-gap: var(--space-3);
@@ -71,6 +90,7 @@
 	/* Layout */
 	--max-content-width: 70rem;
 	--container-gutter: clamp(var(--space-4), 4vw, var(--space-8));
+	--page-frame-space: clamp(var(--space-4), 3vw, var(--space-8));
 	--section-space: clamp(var(--space-10), 7vw, 5.5rem);
 	--section-heading-max-width: 66ch;
 	--section-copy-max-width: 62ch;
@@ -110,14 +130,55 @@ html {
 }
 
 body {
+	position: relative;
+	overflow-x: clip;
 	font-family: var(--font-family-body);
 	font-size: var(--font-size-body);
 	line-height: var(--line-height-body);
 	color: var(--color-text-primary);
 	background:
-		radial-gradient(circle at top left, oklch(0.995 0.003 145) 0%, transparent 54%),
-		linear-gradient(180deg, var(--color-bg-canvas) 0%, oklch(0.965 0.007 145) 100%);
+		radial-gradient(circle at 12% -8%, oklch(0.995 0.013 240) 0%, transparent 42%),
+		radial-gradient(circle at 86% 12%, oklch(0.992 0.019 248 / 0.54) 0%, transparent 48%),
+		linear-gradient(
+			180deg,
+			var(--color-bg-canvas) 0%,
+			color-mix(in oklab, var(--color-bg-canvas) 82%, oklch(0.95 0.013 236)) 100%
+		);
 	text-rendering: optimizeLegibility;
+}
+
+body::before,
+body::after {
+	content: '';
+	position: fixed;
+	pointer-events: none;
+	z-index: -1;
+}
+
+body::before {
+	top: -18rem;
+	right: -11rem;
+	width: 34rem;
+	aspect-ratio: 1;
+	border-radius: 50%;
+	background: radial-gradient(
+		circle,
+		color-mix(in oklab, var(--color-accent-soft) 72%, white),
+		transparent 68%
+	);
+	filter: blur(18px);
+	opacity: 0.55;
+}
+
+body::after {
+	left: -13rem;
+	top: 38vh;
+	width: 28rem;
+	aspect-ratio: 1;
+	border-radius: 50%;
+	background: radial-gradient(circle, oklch(0.95 0.024 238 / 0.64), transparent 70%);
+	filter: blur(20px);
+	opacity: 0.45;
 }
 
 img,
@@ -209,7 +270,105 @@ small {
 }
 
 .site-main {
-	padding-block: clamp(var(--space-8), 6vw, var(--space-16));
+	padding-block: var(--page-frame-space);
+}
+
+.glass-panel {
+	position: relative;
+	overflow: hidden;
+	border: 1px solid var(--glass-border);
+	background:
+		linear-gradient(
+			160deg,
+			color-mix(in oklab, var(--glass-surface-strong) 92%, white),
+			color-mix(in oklab, var(--glass-surface) 90%, var(--color-bg-subtle))
+		),
+		color-mix(in oklab, var(--glass-surface) 76%, transparent);
+	box-shadow: var(--glass-shadow-sm);
+	backdrop-filter: var(--glass-blur-sm);
+	-webkit-backdrop-filter: var(--glass-blur-sm);
+	transition:
+		border-color var(--duration-base) var(--ease-standard),
+		box-shadow var(--duration-base) var(--ease-standard),
+		background-color var(--duration-base) var(--ease-standard);
+}
+
+.glass-panel::after {
+	content: '';
+	position: absolute;
+	inset: 0;
+	pointer-events: none;
+	background: linear-gradient(180deg, rgb(255 255 255 / 0.46), rgb(255 255 255 / 0));
+	opacity: 0.72;
+}
+
+.glass-panel > * {
+	position: relative;
+	z-index: 1;
+}
+
+.glass-panel--strong {
+	border-color: var(--glass-border-strong);
+	background:
+		linear-gradient(
+			152deg,
+			color-mix(in oklab, var(--glass-surface-strong) 95%, white),
+			color-mix(in oklab, var(--glass-surface-soft) 86%, var(--color-bg-subtle))
+		),
+		color-mix(in oklab, var(--glass-surface) 82%, transparent);
+	box-shadow: var(--glass-shadow-lg);
+	backdrop-filter: var(--glass-blur-md);
+	-webkit-backdrop-filter: var(--glass-blur-md);
+}
+
+.reveal-item,
+.reveal-stagger > * {
+	--reveal-delay: 0ms;
+	opacity: var(--section-reveal-progress, 1);
+	transform: translate3d(
+			0,
+			calc((1 - var(--section-reveal-progress, 1)) * var(--reveal-distance)),
+			0
+		)
+		scale(calc(0.99 + (var(--section-reveal-progress, 1) * 0.01)));
+	filter: saturate(calc(0.9 + (var(--section-reveal-progress, 1) * 0.1)));
+	transition:
+		opacity var(--duration-slow) var(--ease-expressive) var(--reveal-delay),
+		transform var(--duration-slow) var(--ease-expressive) var(--reveal-delay),
+		filter var(--duration-slow) var(--ease-expressive) var(--reveal-delay);
+	will-change: opacity, transform;
+}
+
+.reveal-item--delay-1 {
+	--reveal-delay: 90ms;
+}
+
+.reveal-item--delay-2 {
+	--reveal-delay: 180ms;
+}
+
+.reveal-item--delay-3 {
+	--reveal-delay: 270ms;
+}
+
+.reveal-stagger > *:nth-child(2) {
+	--reveal-delay: 70ms;
+}
+
+.reveal-stagger > *:nth-child(3) {
+	--reveal-delay: 140ms;
+}
+
+.reveal-stagger > *:nth-child(4) {
+	--reveal-delay: 210ms;
+}
+
+.reveal-stagger > *:nth-child(5) {
+	--reveal-delay: 280ms;
+}
+
+.reveal-stagger > *:nth-child(6) {
+	--reveal-delay: 350ms;
 }
 
 .skip-link {
@@ -244,6 +403,13 @@ small {
 		scroll-behavior: auto;
 	}
 
+	.reveal-item,
+	.reveal-stagger > * {
+		opacity: 1;
+		transform: none;
+		filter: none;
+	}
+
 	*,
 	*::before,
 	*::after {
@@ -255,6 +421,6 @@ small {
 
 @media (max-width: 900px) {
 	.site-main {
-		padding-block: var(--space-10);
+		padding-block: var(--page-frame-space);
 	}
 }

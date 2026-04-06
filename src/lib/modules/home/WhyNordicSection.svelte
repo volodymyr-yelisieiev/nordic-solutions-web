@@ -31,7 +31,10 @@
 	title="A partnership model centered on trust, clarity, and delivery discipline."
 	description="The differentiators below summarize how we work and why clients choose to continue working with us."
 >
-	<div class="why-nordic-section__grid" aria-label="Reasons to work with Nordic Solutions">
+	<div
+		class="why-nordic-section__grid reveal-stagger"
+		aria-label="Reasons to work with Nordic Solutions"
+	>
 		{#each reasons as reason (reason.title)}
 			<ValueCard title={reason.title} description={reason.description} />
 		{/each}

@@ -41,7 +41,7 @@
 	title="Capabilities built for high-accountability delivery environments."
 	description="We present broad, corporate-safe capabilities that reflect practical execution depth without exposing sensitive detail."
 >
-	<div class="services-section__grid" aria-label="Core capabilities">
+	<div class="services-section__grid reveal-stagger" aria-label="Core capabilities">
 		{#each capabilities as item (item.title)}
 			<FeatureCard title={item.title} description={item.description} badge={item.icon} />
 		{/each}

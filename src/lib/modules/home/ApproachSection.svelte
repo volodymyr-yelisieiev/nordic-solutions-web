@@ -36,7 +36,7 @@
 	title="A transparent process designed for operational confidence."
 	description="The engagement model is intentionally simple to scan: each phase has a clear function and measurable output."
 >
-	<ol class="approach-steps" aria-label="Delivery approach timeline">
+	<ol class="approach-steps reveal-stagger" aria-label="Delivery approach timeline">
 		{#each steps as item, index (item.title)}
 			<li class="approach-steps__item">
 				<ProcessStep
@@ -59,6 +59,8 @@
 		--approach-connector-gap-x: var(--space-4);
 		--approach-connector-gap-y: var(--space-5);
 		--approach-anchor-center: calc(var(--card-padding-md) + (var(--step-badge-size) / 2));
+		position: relative;
+		isolation: isolate;
 		margin: 0;
 		padding: 0;
 		list-style: none;
@@ -67,22 +69,20 @@
 		gap: var(--approach-connector-gap-x);
 	}
 
-	.approach-steps__item {
-		position: relative;
-	}
-
-	.approach-steps__item::after {
+	.approach-steps::before {
 		content: '';
 		position: absolute;
 		top: var(--approach-anchor-center);
 		left: calc(var(--card-padding-md) + var(--step-badge-size));
-		width: calc(100% + var(--approach-connector-gap-x) - var(--step-badge-size));
+		right: calc(var(--card-padding-md) + var(--step-badge-size));
 		height: 1px;
 		background: var(--approach-connector-color);
+		z-index: 0;
 	}
 
-	.approach-steps__item:last-child::after {
-		display: none;
+	.approach-steps__item {
+		position: relative;
+		z-index: 1;
 	}
 
 	@media (max-width: 960px) {
@@ -91,11 +91,13 @@
 			gap: var(--approach-connector-gap-y);
 		}
 
-		.approach-steps__item::after {
+		.approach-steps::before {
 			top: calc(var(--card-padding-md) + var(--step-badge-size));
+			bottom: calc(var(--card-padding-md) + var(--step-badge-size));
 			left: var(--approach-anchor-center);
+			right: auto;
 			width: 1px;
-			height: calc(100% + var(--approach-connector-gap-y) - var(--step-badge-size));
+			height: auto;
 		}
 	}
 </style>

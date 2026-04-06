@@ -83,16 +83,21 @@
 		align-items: center;
 		justify-content: center;
 		gap: var(--space-2);
+		position: relative;
+		isolation: isolate;
+		overflow: hidden;
 		min-height: var(--control-height-md);
 		padding-inline: var(--control-padding-inline-md);
 		border-radius: var(--radius-pill);
-		border: 1px solid transparent;
+		border: 1px solid var(--glass-border);
 		font-family: inherit;
 		font-size: var(--font-size-body-sm);
 		font-weight: 650;
 		line-height: 1;
 		text-decoration: none;
 		white-space: nowrap;
+		backdrop-filter: var(--glass-blur-sm);
+		-webkit-backdrop-filter: var(--glass-blur-sm);
 		cursor: pointer;
 		transition:
 			background-color var(--duration-base) var(--ease-standard),
@@ -100,6 +105,17 @@
 			border-color var(--duration-base) var(--ease-standard),
 			box-shadow var(--duration-base) var(--ease-standard),
 			transform var(--duration-fast) var(--ease-emphasis);
+	}
+
+	.ui-button::before {
+		content: '';
+		position: absolute;
+		inset: 1px;
+		border-radius: inherit;
+		background: linear-gradient(180deg, rgb(255 255 255 / 0.56), rgb(255 255 255 / 0));
+		opacity: 0.75;
+		pointer-events: none;
+		transition: opacity var(--duration-base) var(--ease-standard);
 	}
 
 	@media (hover: hover) {
@@ -115,7 +131,7 @@
 	}
 
 	.ui-button:active {
-		transform: translateY(0) scale(0.98);
+		transform: translateY(0) scale(0.985);
 	}
 
 	.ui-button--md {
@@ -131,29 +147,50 @@
 	}
 
 	.ui-button--primary {
-		border-color: color-mix(in oklab, var(--color-accent) 64%, var(--color-border-soft));
-		background: color-mix(in oklab, var(--color-accent-soft) 56%, var(--color-bg-elevated));
-		color: color-mix(in oklab, var(--color-accent) 88%, black);
-		box-shadow: var(--shadow-sm);
+		border-color: color-mix(in oklab, var(--color-accent) 42%, var(--glass-border));
+		background: linear-gradient(
+			162deg,
+			color-mix(in oklab, white 82%, var(--color-accent-soft)),
+			color-mix(in oklab, var(--color-accent) 24%, var(--glass-surface))
+		);
+		color: color-mix(in oklab, var(--color-accent) 84%, black);
+		box-shadow:
+			inset 0 1px 0 rgb(255 255 255 / 0.52),
+			0 8px 18px -16px color-mix(in oklab, var(--color-accent) 32%, transparent),
+			var(--glass-shadow-sm);
 	}
 
 	@media (hover: hover) {
 		.ui-button--primary:hover {
-			background: color-mix(in oklab, var(--color-accent-soft) 68%, var(--color-bg-elevated));
-			box-shadow: 0 10px 20px -16px rgb(12 45 33 / 0.36);
+			border-color: color-mix(in oklab, var(--color-accent) 52%, var(--glass-border));
+			background: linear-gradient(
+				162deg,
+				color-mix(in oklab, white 86%, var(--color-accent-soft)),
+				color-mix(in oklab, var(--color-accent) 30%, var(--glass-surface-strong))
+			);
+			box-shadow:
+				inset 0 1px 0 rgb(255 255 255 / 0.62),
+				0 10px 20px -16px color-mix(in oklab, var(--color-accent) 38%, transparent),
+				var(--glass-shadow-sm);
+		}
+
+		.ui-button--primary:hover::before {
+			opacity: 0.88;
 		}
 	}
 
 	.ui-button--secondary {
-		border-color: var(--color-border-soft);
-		background: color-mix(in oklab, var(--color-bg-elevated) 86%, white);
+		border-color: var(--glass-border);
+		background: color-mix(in oklab, var(--glass-surface-strong) 78%, white);
 		color: var(--color-text-primary);
+		box-shadow: var(--glass-shadow-sm);
 	}
 
 	@media (hover: hover) {
 		.ui-button--secondary:hover {
-			border-color: color-mix(in oklab, var(--color-border-strong) 70%, var(--color-border-soft));
-			background: color-mix(in oklab, var(--color-bg-subtle) 75%, white);
+			border-color: color-mix(in oklab, var(--glass-border-strong) 74%, var(--glass-border));
+			background: color-mix(in oklab, var(--glass-surface-strong) 86%, white);
+			box-shadow: var(--glass-shadow-md);
 		}
 	}
 
@@ -161,6 +198,9 @@
 		border-color: transparent;
 		background: transparent;
 		color: var(--color-text-muted);
+		box-shadow: none;
+		backdrop-filter: none;
+		-webkit-backdrop-filter: none;
 	}
 
 	@media (hover: hover) {

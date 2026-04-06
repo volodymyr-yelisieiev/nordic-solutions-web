@@ -1,4 +1,6 @@
 <script lang="ts">
+	import { revealOnView } from '$lib/modules/home/reveal-on-view';
+
 	type Props = {
 		title: string;
 		eyebrow?: string;
@@ -11,8 +13,13 @@
 	let { title, eyebrow, id, description, showDivider = true, children }: Props = $props();
 </script>
 
-<section class="section-shell" {id}>
-	<header class="section-shell__header">
+<section
+	class="section-shell glass-panel"
+	{id}
+	style="--section-reveal-progress: 0"
+	use:revealOnView={{ threshold: 0.12, rootMargin: '0px 0px -8% 0px' }}
+>
+	<header class="section-shell__header reveal-item">
 		{#if eyebrow}
 			<p class="section-shell__eyebrow">{eyebrow}</p>
 		{/if}
@@ -25,7 +32,10 @@
 	</header>
 
 	{#if children}
-		<div class:section-shell__slot--with-divider={showDivider} class="section-shell__slot">
+		<div
+			class:section-shell__slot--with-divider={showDivider}
+			class="section-shell__slot reveal-item reveal-item--delay-1"
+		>
 			{@render children()}
 		</div>
 	{/if}
@@ -33,7 +43,9 @@
 
 <style>
 	.section-shell {
-		padding-block: var(--section-space);
+		padding: clamp(var(--space-8), 5.5vw, var(--space-12))
+			clamp(var(--space-4), 3.8vw, var(--space-8));
+		border-radius: clamp(var(--radius-lg), 2vw, var(--radius-xl));
 	}
 
 	.section-shell__header {
@@ -62,13 +74,19 @@
 	}
 
 	.section-shell__slot {
-		margin-top: var(--space-8);
+		margin-top: clamp(var(--space-6), 4vw, var(--space-8));
 		display: grid;
 		gap: var(--space-4);
 	}
 
 	.section-shell__slot--with-divider {
 		padding-top: var(--space-6);
-		border-top: 1px solid var(--color-border-soft);
+		border-top: 1px solid color-mix(in oklab, var(--glass-border) 90%, transparent);
+	}
+
+	@media (max-width: 768px) {
+		.section-shell {
+			padding: var(--space-8) var(--space-4);
+		}
 	}
 </style>

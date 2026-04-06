@@ -33,7 +33,7 @@
 	title="A discreet corporate partner for complex international initiatives."
 	description="Nordic Solutions combines strategic framing with hands-on implementation support for organizations operating in demanding environments."
 >
-	<div class="about-section__layout">
+	<div class="about-section__layout reveal-stagger">
 		<div class="about-section__text">
 			<p>
 				We work with stakeholders who require structured communication, credible planning, and
@@ -45,7 +45,7 @@
 			</p>
 		</div>
 
-		<div class="about-section__stats" aria-label="Key company facts">
+		<div class="about-section__stats reveal-stagger" aria-label="Key company facts">
 			{#each stats as stat (stat.label)}
 				<StatCard value={stat.value} label={stat.label} detail={stat.detail} />
 			{/each}
