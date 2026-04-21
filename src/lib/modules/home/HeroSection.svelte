@@ -1,207 +1,287 @@
 <script lang="ts">
+	import GeneratedScene from '$lib/components/GeneratedScene.svelte';
 	import { Button } from '$lib/components/ui';
+	import { companyStats, heroSlides } from '$lib/modules/home/content';
 	import { revealOnView } from '$lib/modules/home/reveal-on-view';
 </script>
 
 <section
 	id="hero"
-	class="hero-section glass-panel glass-panel--strong"
+	class="hero-section"
 	aria-labelledby="hero-heading"
 	style="--section-reveal-progress: 0"
 	use:revealOnView
 >
-	<div class="hero-section__layout">
-		<div class="hero-section__content reveal-item">
-			<p class="hero-section__eyebrow">International project structuring</p>
+	<div class="hero-section__shell">
+		<div class="hero-section__copy reveal-item">
+			<p class="hero-section__eyebrow">Strategic defense partnerships</p>
 			<h1 class="type-hero" id="hero-heading">
-				Nordic Solutions supports complex cross-border initiatives with precision and discretion.
+				Global defense partnerships shaped with warmth, clarity, and operational gravity.
 			</h1>
 			<p class="hero-section__lead">
-				We align partners, execution tracks, and long-term governance for projects that require
-				operational discipline from day one.
+				Nordic Solutions supports the UAE with capability transfer, industrial partnership design,
+				and implementation models built for long-term strategic value.
 			</p>
 
 			<div class="hero-section__actions">
-				<Button href="#contact" variant="primary" size="lg">Contact Us</Button>
-				<Button href="#about" variant="secondary" size="lg">Learn About Nordic</Button>
+				<Button href="#contact" variant="primary" size="lg">Start a Conversation</Button>
+				<Button href="#services" variant="secondary" size="lg">Explore Capabilities</Button>
+			</div>
+
+			<div class="hero-section__stats reveal-stagger" aria-label="Company signals">
+				{#each companyStats as stat (stat.label)}
+					<div class="hero-section__stat">
+						<span>{stat.label}</span>
+						<strong>{stat.value}</strong>
+					</div>
+				{/each}
 			</div>
 		</div>
 
-		<aside
-			class="hero-section__visual reveal-item reveal-item--delay-2"
-			role="img"
-			aria-label="Abstract visual placeholder"
-		>
-			<div class="hero-section__placeholder glass-panel">
-				<span>Abstract visual placeholder</span>
+		<div class="hero-section__visual reveal-item reveal-item--delay-1">
+			<div class="orbit-line hero-section__orbit hero-section__orbit--one"></div>
+			<div class="orbit-line hero-section__orbit hero-section__orbit--two"></div>
+
+			<div class="hero-section__visual-frame">
+				<div class="hero-section__slide-stack">
+					{#each heroSlides as slide, index (slide.title)}
+						<article class:hero-section__slide--offset={index === 1} class="hero-section__slide">
+							<div class="hero-section__slide-image">
+								<GeneratedScene variant={slide.art} alt={slide.title} />
+							</div>
+							<div class="hero-section__slide-copy">
+								<h2>{slide.title}</h2>
+								<p>{slide.description}</p>
+							</div>
+						</article>
+					{/each}
+				</div>
 			</div>
-		</aside>
+		</div>
 	</div>
 </section>
 
 <style>
 	.hero-section {
-		--hero-frame-height: calc(100svh - var(--header-height) - (var(--page-frame-space) * 2));
 		position: relative;
-		overflow: hidden;
-		border-radius: clamp(var(--radius-lg), 2.2vw, var(--radius-xl));
-		box-shadow: var(--glass-shadow-sm);
-		padding-inline: clamp(var(--space-4), 4vw, var(--space-12));
-		padding-block: clamp(var(--space-6), 7vh, var(--space-12));
-		block-size: var(--hero-frame-height);
+		padding-top: clamp(1rem, 2vw, 1.5rem);
+		padding-bottom: clamp(2rem, 5vw, 3rem);
 	}
 
-	.hero-section::before {
-		content: '';
-		position: absolute;
-		inset: -18% -8% auto auto;
-		width: clamp(16rem, 42vw, 32rem);
-		aspect-ratio: 1;
-		border-radius: 50%;
-		background: radial-gradient(
-			circle,
-			color-mix(in oklab, var(--color-accent-soft) 74%, white),
-			transparent 68%
-		);
-		filter: blur(4px);
-		opacity: 0.58;
-		pointer-events: none;
-	}
-
-	.hero-section::after {
-		content: '';
-		position: absolute;
-		inset: auto auto -38% -16%;
-		width: clamp(14rem, 34vw, 26rem);
-		aspect-ratio: 1;
-		border-radius: 50%;
-		background: radial-gradient(circle, oklch(0.95 0.021 238 / 0.64), transparent 70%);
-		pointer-events: none;
-	}
-
-	.hero-section__layout {
+	.hero-section__shell {
+		position: relative;
 		display: grid;
-		grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
-		gap: clamp(var(--space-6), 4vw, var(--space-12));
+		grid-template-columns: minmax(0, 0.95fr) minmax(0, 1.05fr);
+		gap: clamp(2rem, 4vw, 3.5rem);
 		align-items: center;
-		block-size: 100%;
+		padding: clamp(1.8rem, 4vw, 3rem);
+		border-radius: clamp(2.4rem, 4vw, 3.2rem);
+		background:
+			linear-gradient(180deg, rgb(255 255 255 / 0.54), rgb(255 255 255 / 0.18)),
+			var(--color-bg-subtle);
+		box-shadow: var(--shadow-md);
+		overflow: hidden;
 	}
 
-	.hero-section__content {
+	.hero-section__shell::before {
+		content: 'NORDIC';
+		position: absolute;
+		right: clamp(-1rem, 4vw, 2rem);
+		top: clamp(0.75rem, 2vw, 1.5rem);
+		font-size: clamp(4rem, 16vw, 10rem);
+		font-weight: 700;
+		letter-spacing: -0.06em;
+		color: rgb(20 20 19 / 0.04);
+	}
+
+	.hero-section__copy {
+		position: relative;
+		z-index: 1;
 		display: grid;
-		gap: var(--space-4);
-	}
-
-	.hero-section :global(.type-hero) {
-		font-size: clamp(2.2rem, 4.4vw, 3.9rem);
-		line-height: 1.08;
+		gap: 1.35rem;
 	}
 
 	.hero-section__eyebrow {
 		margin: 0;
 		font-size: var(--font-size-kicker);
 		font-weight: 700;
+		letter-spacing: 0.13em;
 		text-transform: uppercase;
-		letter-spacing: 0.12em;
 		color: var(--color-text-muted);
 	}
 
 	.hero-section__lead {
-		margin: 0;
-		max-width: 58ch;
+		max-width: 35rem;
 		font-size: 1.08rem;
-		line-height: 1.62;
 		color: var(--color-text-muted);
 	}
 
 	.hero-section__actions {
 		display: flex;
 		flex-wrap: wrap;
-		gap: var(--space-3);
+		gap: 0.85rem;
+	}
+
+	.hero-section__stats {
+		display: grid;
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+		gap: 0.8rem;
+		max-width: 38rem;
+	}
+
+	.hero-section__stat {
+		display: grid;
+		gap: 0.45rem;
+		padding: 1rem 1.1rem;
+		border-radius: 1.6rem;
+		background: rgb(255 255 255 / 0.6);
+		border: 1px solid rgb(255 255 255 / 0.72);
+	}
+
+	.hero-section__stat span {
+		font-size: 0.76rem;
+		font-weight: 700;
+		letter-spacing: 0.11em;
+		text-transform: uppercase;
+		color: var(--color-text-subtle);
+	}
+
+	.hero-section__stat strong {
+		font-size: 1rem;
+		font-weight: 500;
 	}
 
 	.hero-section__visual {
-		display: grid;
+		position: relative;
+		min-height: 42rem;
 	}
 
-	.hero-section__placeholder {
+	.hero-section__orbit--one {
+		width: 24rem;
+		height: 24rem;
+		top: 1rem;
+		left: 0;
+	}
+
+	.hero-section__orbit--two {
+		width: 31rem;
+		height: 31rem;
+		bottom: 0;
+		right: -3rem;
+		animation-duration: 16s;
+	}
+
+	.hero-section__visual-frame {
+		position: relative;
+		height: 100%;
 		display: grid;
-		place-items: center;
-		aspect-ratio: 4 / 3;
-		border-radius: clamp(var(--radius-md), 2vw, var(--radius-xl));
-		border-style: dashed;
-		border-color: color-mix(in oklab, var(--color-accent) 40%, var(--glass-border));
+		align-items: center;
+		padding: 2rem 0;
+		border-radius: 3rem;
 		background:
-			radial-gradient(
-				circle at 20% 18%,
-				color-mix(in oklab, var(--color-accent-soft) 70%, white),
-				transparent 58%
-			),
-			linear-gradient(
-				152deg,
-				color-mix(in oklab, var(--glass-surface-strong) 84%, white),
-				color-mix(in oklab, var(--glass-surface-soft) 88%, var(--color-bg-subtle))
-			);
-		color: var(--color-text-muted);
-		font-size: var(--font-size-caption);
-		font-weight: 600;
-		backdrop-filter: var(--glass-blur-sm);
-		-webkit-backdrop-filter: var(--glass-blur-sm);
+			radial-gradient(circle at 18% 22%, rgb(255 255 255 / 0.78), transparent 24%),
+			radial-gradient(circle at 80% 66%, rgb(243 115 56 / 0.1), transparent 18%),
+			linear-gradient(180deg, rgb(248 243 239 / 0.9), rgb(239 231 225 / 0.94));
+		box-shadow: inset 0 0 0 1px rgb(255 255 255 / 0.82);
 	}
 
-	@media (max-width: 900px) {
-		.hero-section__layout {
+	.hero-section__slide-stack {
+		position: relative;
+		display: grid;
+		gap: 1.1rem;
+		z-index: 1;
+	}
+
+	.hero-section__slide {
+		display: grid;
+		grid-template-columns: 6.5rem minmax(0, 1fr);
+		gap: 1rem;
+		align-items: center;
+		max-width: 31rem;
+		padding: 1rem;
+		border-radius: 999px;
+		background: rgb(255 255 255 / 0.9);
+		box-shadow: var(--shadow-soft);
+		transform: translateX(0);
+		animation: hero-slide-float 10s var(--ease-standard) infinite alternate;
+	}
+
+	.hero-section__slide--offset {
+		margin-left: auto;
+		animation-delay: 1.2s;
+	}
+
+	.hero-section__slide:nth-child(3) {
+		animation-delay: 2.2s;
+	}
+
+	.hero-section__slide-image {
+		aspect-ratio: 1;
+		border-radius: 50%;
+		overflow: hidden;
+	}
+
+	.hero-section__slide-image :global(svg) {
+		width: 100%;
+		height: 100%;
+	}
+
+	.hero-section__slide-copy {
+		display: grid;
+		gap: 0.35rem;
+	}
+
+	.hero-section__slide-copy h2 {
+		font-size: 1.15rem;
+	}
+
+	.hero-section__slide-copy p {
+		font-size: 0.92rem;
+		color: var(--color-text-muted);
+	}
+
+	@keyframes hero-slide-float {
+		from {
+			transform: translate3d(0, 0, 0);
+		}
+
+		to {
+			transform: translate3d(0.5rem, -0.45rem, 0);
+		}
+	}
+
+	@media (max-width: 1024px) {
+		.hero-section__shell {
 			grid-template-columns: 1fr;
 		}
 
 		.hero-section__visual {
-			display: none;
-		}
-
-		.hero-section__placeholder {
-			aspect-ratio: 16 / 10;
+			min-height: 38rem;
 		}
 	}
 
-	@media (max-width: 1200px) {
-		.hero-section :global(.type-hero) {
-			font-size: clamp(2.05rem, 6vw, 3.3rem);
-		}
-	}
-
-	@media (max-height: 760px) and (min-width: 901px) {
-		.hero-section {
-			padding-block: var(--space-4);
+	@media (max-width: 700px) {
+		.hero-section__shell {
+			padding: 1.25rem;
+			border-radius: 2rem;
 		}
 
-		.hero-section :global(.type-hero) {
-			font-size: clamp(1.95rem, 3.6vw, 3.1rem);
-		}
-
-		.hero-section__lead {
-			font-size: 1rem;
-			line-height: 1.55;
-		}
-	}
-
-	@media (max-width: 768px) {
-		.hero-section {
-			padding-block: clamp(var(--space-5), 5vh, var(--space-8));
-		}
-
-		.hero-section__actions {
-			display: grid;
+		.hero-section__stats {
 			grid-template-columns: 1fr;
 		}
 
-		.hero-section__actions :global(.ui-button) {
-			width: 100%;
+		.hero-section__visual {
+			min-height: auto;
 		}
-	}
 
-	@media (max-width: 520px) {
-		.hero-section {
-			padding-block: clamp(var(--space-4), 4.2vh, var(--space-6));
+		.hero-section__slide {
+			grid-template-columns: 5rem 1fr;
+			max-width: none;
+			border-radius: 1.8rem;
+		}
+
+		.hero-section__slide--offset {
+			margin-left: 0;
 		}
 	}
 </style>

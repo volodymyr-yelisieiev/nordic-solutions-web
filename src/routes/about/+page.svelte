@@ -5,5 +5,5 @@
 <RoutePlaceholder
 	pageTitle="About"
 	routePath="/about"
-	purpose="Company profile, international positioning, and trust baseline placeholder."
+	purpose="Company profile, regional footing, and the experience base behind Nordic Solutions."
 />

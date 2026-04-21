@@ -1,53 +1,32 @@
 <script lang="ts">
-	import { Card, SectionShell } from '$lib/components/ui';
-
-	const regions = ['Gulf Region', 'Wider MENA', 'European Partner Network'];
-	const clientProfiles = [
-		'Institutional stakeholders',
-		'Industrial partners',
-		'Multi-party project teams'
-	];
+	import GeneratedScene from '$lib/components/GeneratedScene.svelte';
+	import { SectionShell } from '$lib/components/ui';
 </script>
 
 <SectionShell
 	id="presence"
 	eyebrow="Presence"
-	title="Regional footprint with a multi-market execution perspective."
-	description="This block is intentionally high-level: enough substance for credibility, without exposing confidential operational details."
+	title="Regional presence with local relevance and international partner access."
+	description="From Abu Dhabi, Nordic Solutions connects domestic defense priorities with global manufacturers, specialist expertise, and structured collaboration pathways."
 >
 	<div class="presence-section__layout reveal-stagger">
-		<div class="presence-section__content">
-			<p>
-				Nordic Solutions coordinates projects through a networked operating model that combines
-				local presence, regional awareness, and partner-based delivery capability.
-			</p>
-
-			<div class="presence-section__columns">
-				<div>
-					<h3>Regions</h3>
-					<ul>
-						{#each regions as region (region)}
-							<li>{region}</li>
-						{/each}
-					</ul>
-				</div>
-
-				<div>
-					<h3>Client Types</h3>
-					<ul>
-						{#each clientProfiles as profile (profile)}
-							<li>{profile}</li>
-						{/each}
-					</ul>
-				</div>
-			</div>
+		<div class="presence-section__visual">
+			<GeneratedScene variant="presence-hub" alt="Nordic Solutions regional presence visual" />
+			<div class="presence-section__chip presence-section__chip--one">UAE base</div>
+			<div class="presence-section__chip presence-section__chip--two">Global partner access</div>
 		</div>
 
-		<div class="presence-section__visual" role="img" aria-label="Map or diagram placeholder">
-			<Card as="div" variant="subtle" class="presence-section__map">
-				<p>Map / diagram placeholder</p>
-				<p>Future layer: footprint and market indicators</p>
-			</Card>
+		<div class="presence-section__copy">
+			<h3>Nordic Solutions operates with local relevance and international reach.</h3>
+			<p>
+				From Abu Dhabi, the company connects domestic needs with global manufacturers, technical
+				expertise, and structured collaboration models that can scale into long-term industrial
+				value.
+			</p>
+			<p>
+				This operating position helps clients move from market scanning to partnership design and
+				execution without losing strategic control.
+			</p>
 		</div>
 	</div>
 </SectionShell>
@@ -55,84 +34,52 @@
 <style>
 	.presence-section__layout {
 		display: grid;
-		grid-template-columns: minmax(0, 1fr) minmax(0, 0.9fr);
-		gap: clamp(var(--space-6), 4vw, var(--space-12));
-		align-items: start;
-	}
-
-	.presence-section__content {
-		display: grid;
-		gap: var(--space-5);
-		color: var(--color-text-muted);
-	}
-
-	.presence-section__columns {
-		display: grid;
-		grid-template-columns: repeat(2, minmax(0, 1fr));
-		gap: var(--space-4);
-	}
-
-	.presence-section__columns h3 {
-		margin: 0 0 var(--space-2);
-		font-family: var(--font-family-body);
-		font-size: var(--font-size-small);
-		font-weight: 700;
-		text-transform: uppercase;
-		letter-spacing: 0.08em;
-		color: var(--color-text-muted);
-	}
-
-	.presence-section__columns ul {
-		padding-inline-start: var(--space-5);
-	}
-
-	.presence-section__columns li {
-		font-size: var(--font-size-body-sm);
-		line-height: 1.55;
-		color: var(--color-text-primary);
+		grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
+		gap: clamp(1.5rem, 4vw, 3rem);
+		align-items: center;
 	}
 
 	.presence-section__visual {
-		display: grid;
+		position: relative;
+		overflow: hidden;
+		border-radius: 2.5rem;
+		box-shadow: var(--shadow-md);
+		min-height: 24rem;
 	}
 
-	:global(.presence-section__map) {
-		display: grid;
-		align-content: center;
-		gap: var(--space-2);
-		min-height: 19rem;
-		border-style: dashed;
-		border-color: color-mix(in oklab, var(--color-accent) 42%, var(--color-border-soft));
-		background:
-			linear-gradient(
-				150deg,
-				color-mix(in oklab, var(--color-bg-elevated) 88%, white),
-				color-mix(in oklab, var(--color-accent-soft) 55%, white)
-			),
-			repeating-linear-gradient(
-				-32deg,
-				transparent,
-				transparent 0.72rem,
-				color-mix(in oklab, var(--color-border-soft) 52%, transparent) 0.72rem,
-				color-mix(in oklab, var(--color-border-soft) 52%, transparent) 0.82rem
-			);
+	.presence-section__visual :global(svg) {
+		width: 100%;
+		height: 100%;
 	}
 
-	:global(.presence-section__map p) {
-		margin: 0;
-		font-size: var(--font-size-caption);
-		font-weight: 600;
+	.presence-section__chip {
+		position: absolute;
+		padding: 0.8rem 1rem;
+		border-radius: 999px;
+		background: rgb(255 255 255 / 0.9);
+		box-shadow: var(--shadow-soft);
+		font-size: 0.9rem;
+	}
+
+	.presence-section__chip--one {
+		left: 1rem;
+		top: 1rem;
+	}
+
+	.presence-section__chip--two {
+		right: 1rem;
+		bottom: 1rem;
+	}
+
+	.presence-section__copy {
+		display: grid;
+		gap: 1rem;
 		color: var(--color-text-muted);
 	}
 
 	@media (max-width: 900px) {
-		.presence-section__layout,
-		.presence-section__columns {
+		.presence-section__layout {
 			grid-template-columns: 1fr;
-		}
-
-		:global(.presence-section__map) {
-			min-height: 15rem;
 		}
 	}
 </style>

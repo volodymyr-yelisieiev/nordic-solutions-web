@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { resolve } from '$app/paths';
+	import { contactDetails, legacyAssetPaths } from '$lib/modules/home/content';
 	import type { NavigationItem } from '$lib/modules/site-navigation';
 
 	type Props = {
@@ -13,180 +14,158 @@
 </script>
 
 <footer class="app-footer">
-	<div class="shell-container app-footer__grid glass-panel">
-		<section class="app-footer__block">
-			<a class="app-footer__brand" href={resolve('/')} aria-label="Nordic Solutions home">
-				<img class="app-footer__logo" src="/Nordic_Solutions_Logo_Red.svg" alt="Nordic Solutions" />
-			</a>
-			<p class="app-footer__description">
-				Structured international project support for partnerships, integration work, and long-term
-				execution discipline.
+	<div class="shell-container app-footer__inner">
+		<div class="app-footer__headline-block">
+			<p class="app-footer__eyebrow">Nordic Solutions</p>
+			<h2 class="app-footer__headline">
+				We stay close to the brief, the partner landscape, and the delivery reality.
+			</h2>
+			<p class="app-footer__intro">
+				Structured support for defense partnerships, capability transfer, and long-range industrial
+				coordination in the UAE.
 			</p>
-		</section>
+		</div>
 
-		<section class="app-footer__block app-footer__contacts" aria-label="Contact details">
-			<h2 class="app-footer__title">Contact</h2>
-			<p>Abu Dhabi Global Market, Al Maryah Island, Abu Dhabi, UAE</p>
-			<p>
-				<a href="mailto:hello@nordicsolutions.ae">hello@nordicsolutions.ae</a>
-			</p>
-			<p>
-				<a href="tel:+97120004900">+971 2 000 4900</a>
-			</p>
-		</section>
+		<div class="app-footer__grid">
+			<section class="app-footer__column">
+				<img class="app-footer__logo" src={legacyAssetPaths.logo} alt="Nordic Solutions" />
+				<p class="app-footer__meta-copy">
+					{contactDetails.company}<br />
+					{contactDetails.addressLine1}<br />
+					{contactDetails.addressLine2}
+				</p>
+			</section>
 
-		<nav class="app-footer__block" aria-label="Footer navigation">
-			<h2 class="app-footer__title">Navigate</h2>
-			<ul class="app-footer__links">
-				{#each compactNavigation as item (item.key)}
-					<li>
-						<a href={resolve(item.routePath)}>{item.title}</a>
-					</li>
-				{/each}
-			</ul>
-		</nav>
+			<nav class="app-footer__column" aria-label="Footer navigation">
+				<h3>Explore</h3>
+				<ul class="app-footer__links">
+					{#each compactNavigation as item (item.key)}
+						<li><a href={resolve(item.routePath)}>{item.title}</a></li>
+					{/each}
+				</ul>
+			</nav>
+
+			<section class="app-footer__column">
+				<h3>Reach Us</h3>
+				<ul class="app-footer__links">
+					<li><a href={`mailto:${contactDetails.email}`}>{contactDetails.email}</a></li>
+					<li><a href={`tel:${contactDetails.phone}`}>{contactDetails.phone}</a></li>
+					<li><span>{contactDetails.addressLine1}</span></li>
+				</ul>
+			</section>
+		</div>
 	</div>
 
-	<div class="shell-container app-footer__meta">
-		© {currentYear} Nordic Solutions. All rights reserved.
+	<div class="shell-container app-footer__bottom">
+		<span>© {currentYear} Nordic Solutions. All rights reserved.</span>
+		<span>Built for high-trust strategic engagement.</span>
 	</div>
 </footer>
 
 <style>
 	.app-footer {
-		margin-top: var(--space-12);
-		padding-bottom: var(--space-4);
+		margin-top: var(--section-space);
+		padding-top: clamp(3rem, 7vw, 5rem);
+		padding-bottom: 2rem;
+		background: var(--color-dark-surface);
+		color: #f3f0ee;
+	}
+
+	.app-footer__inner {
+		display: grid;
+		gap: clamp(2rem, 5vw, 3.5rem);
+	}
+
+	.app-footer__headline-block {
+		max-width: 44rem;
+		display: grid;
+		gap: 1rem;
+	}
+
+	.app-footer__eyebrow {
+		margin: 0;
+		font-size: var(--font-size-kicker);
+		font-weight: 700;
+		letter-spacing: 0.12em;
+		text-transform: uppercase;
+		color: rgb(243 240 238 / 0.58);
+	}
+
+	.app-footer__headline {
+		color: #f3f0ee;
+		max-width: 18ch;
+	}
+
+	.app-footer__intro {
+		max-width: 36rem;
+		color: rgb(243 240 238 / 0.68);
 	}
 
 	.app-footer__grid {
 		display: grid;
-		grid-template-columns: 1.1fr 1fr 0.9fr;
-		gap: clamp(var(--space-6), 4.6vw, var(--space-10));
-		padding-block: clamp(var(--space-8), 5vw, var(--space-12));
-		padding-inline: clamp(var(--space-4), 3.6vw, var(--space-8));
-		border-radius: clamp(var(--radius-lg), 2vw, var(--radius-xl));
+		grid-template-columns: 1.2fr 0.8fr 0.9fr;
+		gap: clamp(1.5rem, 4vw, 3rem);
+		padding-top: 1.5rem;
+		border-top: 1px solid rgb(255 255 255 / 0.14);
 	}
 
-	.app-footer__block {
+	.app-footer__column {
 		display: grid;
-		gap: var(--space-3);
 		align-content: start;
+		gap: 1rem;
 	}
 
-	.app-footer__brand {
-		display: inline-flex;
-		width: fit-content;
-		border-radius: var(--radius-sm);
-		line-height: 0;
+	.app-footer__column h3 {
+		font-size: var(--font-size-kicker);
+		font-weight: 700;
+		letter-spacing: 0.12em;
+		text-transform: uppercase;
+		color: rgb(243 240 238 / 0.52);
 	}
 
 	.app-footer__logo {
-		width: clamp(8.6rem, 13vw, 10.8rem);
-		aspect-ratio: 147.401 / 70.866;
+		width: 10rem;
 		height: auto;
+		filter: brightness(0) invert(1);
 	}
 
-	.app-footer__title {
-		margin: 0;
-		font-family: var(--font-family-body);
-		font-size: 0.8rem;
-		font-weight: 700;
-		text-transform: uppercase;
-		letter-spacing: 0.08em;
-		color: var(--color-text-muted);
-	}
-
-	.app-footer__description,
-	.app-footer__contacts p {
-		margin: 0;
-		max-width: 44ch;
-		font-size: 0.95rem;
-		line-height: 1.58;
-		color: color-mix(in oklab, var(--color-text-muted) 88%, var(--color-text-primary));
-	}
-
-	.app-footer__contacts a {
-		font-size: 0.95rem;
-		font-weight: 560;
-		text-decoration: none;
-		color: var(--color-text-primary);
-		border-radius: var(--radius-sm);
-		padding-inline: var(--space-1);
-		transition:
-			color var(--duration-base) var(--ease-standard),
-			background-color var(--duration-base) var(--ease-standard);
-	}
-
-	@media (hover: hover) {
-		.app-footer__contacts a:hover {
-			color: color-mix(in oklab, var(--color-accent) 82%, black);
-			background: color-mix(in oklab, var(--glass-surface) 74%, white);
-		}
+	.app-footer__meta-copy {
+		color: rgb(243 240 238 / 0.68);
 	}
 
 	.app-footer__links {
+		display: grid;
+		gap: 0.7rem;
 		margin: 0;
 		padding: 0;
 		list-style: none;
-		display: grid;
-		gap: var(--space-2);
 	}
 
-	.app-footer__links a {
-		display: inline-flex;
-		align-items: center;
-		min-height: 1.8rem;
-		padding-inline: var(--space-1);
-		color: var(--color-text-primary);
-		text-decoration-line: underline;
-		text-decoration-thickness: 0.08em;
-		text-decoration-color: transparent;
-		text-underline-offset: 0.24em;
-		font-size: 0.95rem;
-		transition:
-			text-decoration-color var(--duration-base) var(--ease-standard),
-			color var(--duration-base) var(--ease-standard);
+	.app-footer__links a,
+	.app-footer__links span {
+		color: #f3f0ee;
+		text-decoration: none;
 	}
 
-	@media (hover: hover) {
-		.app-footer__links a:hover {
-			color: var(--color-text-primary);
-			background: color-mix(in oklab, var(--glass-surface) 74%, white);
-			text-decoration-color: color-mix(in oklab, var(--color-text-primary) 56%, transparent);
-		}
-	}
-
-	.app-footer__brand:focus-visible,
-	.app-footer__contacts a:focus-visible,
-	.app-footer__links a:focus-visible {
-		outline: 2px solid var(--focus-ring-color);
-		outline-offset: 2px;
-		box-shadow: 0 0 0 4px var(--focus-ring-shadow);
-	}
-
-	.app-footer__meta {
-		margin-top: var(--space-4);
-		padding-block: var(--space-4) var(--space-5);
-		border-top: 1px solid color-mix(in oklab, var(--glass-border) 80%, transparent);
-		font-size: var(--font-size-small);
-		color: var(--color-text-muted);
+	.app-footer__bottom {
+		display: flex;
+		flex-wrap: wrap;
+		justify-content: space-between;
+		gap: 1rem;
+		margin-top: 2rem;
+		padding-top: 1rem;
+		border-top: 1px solid rgb(255 255 255 / 0.14);
+		color: rgb(243 240 238 / 0.5);
+		font-size: 0.84rem;
 	}
 
 	@media (max-width: 900px) {
 		.app-footer__grid {
 			grid-template-columns: 1fr;
-			gap: var(--space-8);
-			padding-block: var(--space-10);
 		}
 
-		.app-footer__logo {
-			width: 9rem;
-		}
-	}
-
-	@media (max-width: 600px) {
-		.app-footer__logo {
-			width: 8.2rem;
+		.app-footer__headline {
+			max-width: unset;
 		}
 	}
 </style>
