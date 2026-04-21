@@ -5,5 +5,5 @@
 <RoutePlaceholder
 	pageTitle="Services"
 	routePath="/services"
-	purpose="Capabilities section placeholder for strategic services and execution support blocks."
+	purpose="Capability areas covering transfer, partnerships, imports, and export-oriented market support."
 />

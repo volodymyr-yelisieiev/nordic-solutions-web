@@ -5,5 +5,5 @@
 <RoutePlaceholder
 	pageTitle="Approach"
 	routePath="/approach"
-	purpose="Process and operational discipline placeholder with future multi-step workflow details."
+	purpose="Operating model covering strategic framing, partner selection, transfer design, and delivery discipline."
 />

@@ -1,49 +1,30 @@
 <script lang="ts">
-	import { FeatureCard, SectionShell } from '$lib/components/ui';
-
-	const capabilities = [
-		{
-			title: 'Strategic Project Development',
-			description:
-				'Program framing, scope alignment, and delivery architecture for initiatives with multiple stakeholders.',
-			icon: 'SP'
-		},
-		{
-			title: 'Industrial Partnerships',
-			description:
-				'Partner selection and collaboration structures designed for long-term operational compatibility.',
-			icon: 'IP'
-		},
-		{
-			title: 'Technology Integration',
-			description:
-				'Coordination between technical teams and decision-makers to keep implementation practical and traceable.',
-			icon: 'TI'
-		},
-		{
-			title: 'Supply Chain Structuring',
-			description:
-				'Resilient planning and sequencing across vendors, timelines, and compliance-oriented checkpoints.',
-			icon: 'SC'
-		},
-		{
-			title: 'Implementation Support',
-			description:
-				'Ongoing cadence management, issue escalation paths, and operational follow-through until stabilization.',
-			icon: 'IS'
-		}
-	];
+	import GeneratedScene from '$lib/components/GeneratedScene.svelte';
+	import { SectionShell } from '$lib/components/ui';
+	import { serviceHighlights } from '$lib/modules/home/content';
 </script>
 
 <SectionShell
 	id="services"
-	eyebrow="Services"
-	title="Capabilities built for high-accountability delivery environments."
-	description="We present broad, corporate-safe capabilities that reflect practical execution depth without exposing sensitive detail."
+	eyebrow="How We Help"
+	title="Four capability tracks built around transfer, partnerships, and disciplined market access."
+	description="Nordic Solutions supports capability growth through clear program structures, practical coordination, and credible cross-border execution."
 >
 	<div class="services-section__grid reveal-stagger" aria-label="Core capabilities">
-		{#each capabilities as item (item.title)}
-			<FeatureCard title={item.title} description={item.description} badge={item.icon} />
+		{#each serviceHighlights as item (item.title)}
+			<article class="services-section__card">
+				<div class="services-section__image-wrap">
+					<div class="orbit-line services-section__orbit"></div>
+					<div class="services-section__image">
+						<GeneratedScene variant={item.art} alt={item.title} />
+					</div>
+				</div>
+				<div class="services-section__copy">
+					<p>Capability</p>
+					<h3>{item.title}</h3>
+					<span>{item.description}</span>
+				</div>
+			</article>
 		{/each}
 	</div>
 </SectionShell>
@@ -51,17 +32,67 @@
 <style>
 	.services-section__grid {
 		display: grid;
-		grid-template-columns: repeat(3, minmax(0, 1fr));
-		gap: var(--space-4);
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+		gap: clamp(1.25rem, 3vw, 2rem);
 	}
 
-	@media (max-width: 1080px) {
-		.services-section__grid {
-			grid-template-columns: repeat(2, minmax(0, 1fr));
-		}
+	.services-section__card {
+		position: relative;
+		display: grid;
+		gap: 1.25rem;
+		padding: 1.4rem;
+		border-radius: 2.4rem;
+		background: linear-gradient(180deg, rgb(255 255 255 / 0.9), rgb(247 241 236 / 0.96));
+		border: 1px solid rgb(255 255 255 / 0.88);
+		box-shadow: 0 28px 56px -42px rgb(20 20 19 / 0.34);
+		overflow: hidden;
 	}
 
-	@media (max-width: 820px) {
+	.services-section__image-wrap {
+		position: relative;
+		display: grid;
+		place-items: center;
+		min-height: 17rem;
+	}
+
+	.services-section__orbit {
+		width: 17rem;
+		height: 17rem;
+	}
+
+	.services-section__image {
+		position: relative;
+		z-index: 1;
+		overflow: hidden;
+		width: 12.5rem;
+		height: 12.5rem;
+		border-radius: 50%;
+		box-shadow: var(--shadow-soft);
+	}
+
+	.services-section__image :global(svg) {
+		width: 100%;
+		height: 100%;
+	}
+
+	.services-section__copy {
+		display: grid;
+		gap: 0.4rem;
+	}
+
+	.services-section__copy p {
+		font-size: 0.78rem;
+		font-weight: 700;
+		letter-spacing: 0.12em;
+		text-transform: uppercase;
+		color: var(--color-text-subtle);
+	}
+
+	.services-section__copy span {
+		color: var(--color-text-muted);
+	}
+
+	@media (max-width: 900px) {
 		.services-section__grid {
 			grid-template-columns: 1fr;
 		}

@@ -1,42 +1,26 @@
 <script lang="ts">
-	import { SectionShell, ValueCard } from '$lib/components/ui';
-
-	const reasons = [
-		{
-			title: 'International Perspective',
-			description:
-				'We operate with awareness of cross-border expectations, governance norms, and partner cultures.'
-		},
-		{
-			title: 'Structured Execution',
-			description:
-				'Engagements are managed through clear milestones, ownership, and transparent status communication.'
-		},
-		{
-			title: 'Long-Term Orientation',
-			description:
-				'We design collaborations for continuity rather than one-off transactions or isolated handovers.'
-		},
-		{
-			title: 'Professional Discretion',
-			description:
-				'Communication remains measured and compliant, balancing visibility with confidentiality needs.'
-		}
-	];
+	import GeneratedScene from '$lib/components/GeneratedScene.svelte';
+	import { SectionShell } from '$lib/components/ui';
+	import { whyChooseNordic } from '$lib/modules/home/content';
 </script>
 
 <SectionShell
 	id="why-nordic"
 	eyebrow="Why Nordic"
-	title="A partnership model centered on trust, clarity, and delivery discipline."
-	description="The differentiators below summarize how we work and why clients choose to continue working with us."
+	title="Six practical reasons organizations rely on Nordic Solutions for sensitive, long-horizon defense work."
+	description="The company combines regional commercial understanding, international defense exposure, and a delivery style built around accountability."
 >
-	<div
-		class="why-nordic-section__grid reveal-stagger"
-		aria-label="Reasons to work with Nordic Solutions"
-	>
-		{#each reasons as reason (reason.title)}
-			<ValueCard title={reason.title} description={reason.description} />
+	<div class="why-nordic-section__grid reveal-stagger">
+		{#each whyChooseNordic as item (item.title)}
+			<article class="why-nordic-section__card">
+				<div class="why-nordic-section__image">
+					<GeneratedScene variant={item.art} alt={item.title} />
+				</div>
+				<div class="why-nordic-section__copy">
+					<h3>{item.title}</h3>
+					<p>{item.description}</p>
+				</div>
+			</article>
 		{/each}
 	</div>
 </SectionShell>
@@ -44,11 +28,48 @@
 <style>
 	.why-nordic-section__grid {
 		display: grid;
-		grid-template-columns: repeat(2, minmax(0, 1fr));
-		gap: var(--space-3);
+		grid-template-columns: repeat(3, minmax(0, 1fr));
+		gap: 1rem;
 	}
 
-	@media (max-width: 800px) {
+	.why-nordic-section__card {
+		display: grid;
+		gap: 1rem;
+		padding: 1rem;
+		border-radius: 2rem;
+		background: rgb(255 255 255 / 0.76);
+		box-shadow: var(--shadow-soft);
+		transition: transform var(--duration-base) var(--ease-standard);
+	}
+
+	.why-nordic-section__image {
+		overflow: hidden;
+		border-radius: 1.7rem;
+		aspect-ratio: 4 / 3;
+	}
+
+	.why-nordic-section__image :global(svg) {
+		width: 100%;
+		height: 100%;
+		transition: transform var(--duration-slow) var(--ease-expressive);
+	}
+
+	.why-nordic-section__copy p {
+		margin-top: 0.45rem;
+		color: var(--color-text-muted);
+	}
+
+	@media (hover: hover) {
+		.why-nordic-section__card:hover {
+			transform: translateY(-4px);
+		}
+
+		.why-nordic-section__card:hover :global(svg) {
+			transform: scale(1.04);
+		}
+	}
+
+	@media (max-width: 900px) {
 		.why-nordic-section__grid {
 			grid-template-columns: 1fr;
 		}

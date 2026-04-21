@@ -15,12 +15,10 @@
 </script>
 
 <div class="site-shell">
-	<a class="skip-link" href="#main-content">Skip to main content</a>
-
 	<AppHeader {navigation} />
 
 	<main class="site-main" id="main-content" tabindex="-1">
-		<div class="shell-container">
+		<div class="shell-container shell-container--page">
 			{#key currentPathname}
 				<div class="page-transition">{@render children()}</div>
 			{/key}
@@ -32,7 +30,12 @@
 
 <style>
 	:global(.page-transition > section + section) {
-		margin-top: clamp(var(--space-4), 3vw, var(--space-8));
+		margin-top: clamp(0.25rem, 1vw, 0.75rem);
+	}
+
+	.shell-container--page {
+		display: grid;
+		gap: clamp(0.25rem, 1vw, 0.75rem);
 	}
 
 	.page-transition {
@@ -43,14 +46,14 @@
 	@keyframes page-transition-enter {
 		from {
 			opacity: 0;
-			filter: blur(4px);
-			transform: translateY(0.7rem) scale(0.998);
+			filter: blur(7px);
+			transform: translateY(1rem) scale(0.995);
 		}
 
 		to {
 			opacity: 1;
 			filter: blur(0);
-			transform: translateY(0);
+			transform: translateY(0) scale(1);
 		}
 	}
 

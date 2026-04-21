@@ -4,6 +4,7 @@
 	import { resolve } from '$app/paths';
 	import { page } from '$app/state';
 	import { Button } from '$lib/components/ui';
+	import { legacyAssetPaths } from '$lib/modules/home/content';
 	import type { HomeSectionId, NavigationItem } from '$lib/modules/site-navigation';
 	import { onMount, tick } from 'svelte';
 
@@ -37,7 +38,7 @@
 			return 0;
 		}
 
-		return header.offsetHeight + 24;
+		return header.offsetHeight + 20;
 	};
 
 	const collectHomeSections = () => {
@@ -126,7 +127,6 @@
 		}
 
 		event?.preventDefault();
-
 		scrollToSection(sectionIdFromHref(item.href));
 	};
 
@@ -146,11 +146,6 @@
 	};
 
 	$effect(() => {
-		if (currentPathname === '/') {
-			isMobileMenuOpen = false;
-			return;
-		}
-
 		isMobileMenuOpen = false;
 	});
 
@@ -192,7 +187,7 @@
 		}
 
 		const onScroll = () => {
-			isHeaderElevated = window.scrollY > 6;
+			isHeaderElevated = window.scrollY > 12;
 			syncActiveFromScroll();
 		};
 
@@ -234,61 +229,66 @@
 </script>
 
 <header class:app-header--elevated={isHeaderElevated} class="app-header">
-	<div class="shell-container app-header__inner">
-		<a class="app-header__brand" href={resolve('/')} aria-label="Nordic Solutions home">
-			<img class="app-header__logo" src="/Nordic_Solutions_Logo_Red.svg" alt="Nordic Solutions" />
-		</a>
+	<div class="shell-container">
+		<div class="app-header__pill">
+			<a class="app-header__brand" href={resolve('/')} aria-label="Nordic Solutions home">
+				<img class="app-header__logo" src={legacyAssetPaths.logo} alt="Nordic Solutions" />
+				<span class="app-header__brand-copy">Strategic defense partnerships</span>
+			</a>
 
-		<nav class="app-header__desktop-nav" aria-label="Primary navigation">
-			<ul class="app-header__list">
-				{#each navigationWithoutPrimary as item (item.key)}
-					<li>
-						<a
-							class:app-header__link--active={isItemActive(item)}
-							class="app-header__link"
-							href={resolve(
-								currentPathname === '/'
-									? item.href === '#hero'
-										? '/'
-										: `/${item.href}`
-									: item.routePath
-							)}
-							onclick={(event) => handleSectionNavigation(item, event)}
-							aria-current={isItemActive(item) ? 'page' : undefined}
-						>
-							{item.title}
-						</a>
-					</li>
-				{/each}
-			</ul>
-		</nav>
+			<nav class="app-header__desktop-nav" aria-label="Primary navigation">
+				<ul class="app-header__list">
+					{#each navigationWithoutPrimary as item (item.key)}
+						<li>
+							<a
+								class:app-header__link--active={isItemActive(item)}
+								class="app-header__link"
+								href={resolve(
+									currentPathname === '/'
+										? item.href === '#hero'
+											? '/'
+											: `/${item.href}`
+										: item.routePath
+								)}
+								onclick={(event) => handleSectionNavigation(item, event)}
+								aria-current={isItemActive(item) ? 'page' : undefined}
+							>
+								{item.title}
+							</a>
+						</li>
+					{/each}
+				</ul>
+			</nav>
 
-		{#if currentPathname === '/'}
-			<Button
-				type="button"
-				variant="primary"
-				size="md"
-				class="app-header__cta"
-				onclick={handlePrimaryAction}>Contact</Button
-			>
-		{:else}
-			<Button href={resolve('/contact')} variant="primary" size="md" class="app-header__cta"
-				>Contact</Button
-			>
-		{/if}
+			<div class="app-header__actions">
+				{#if currentPathname === '/'}
+					<Button
+						type="button"
+						variant="primary"
+						size="md"
+						class="app-header__cta"
+						onclick={handlePrimaryAction}>Contact</Button
+					>
+				{:else}
+					<Button href={resolve('/contact')} variant="primary" size="md" class="app-header__cta"
+						>Contact</Button
+					>
+				{/if}
 
-		<button
-			type="button"
-			class="app-header__menu-toggle"
-			onclick={() => (isMobileMenuOpen = !isMobileMenuOpen)}
-			aria-expanded={isMobileMenuOpen}
-			aria-controls="app-mobile-navigation"
-			aria-label={isMobileMenuOpen ? 'Close menu' : 'Open menu'}
-		>
-			<span class="app-header__menu-line"></span>
-			<span class="app-header__menu-line"></span>
-			<span class="app-header__menu-line"></span>
-		</button>
+				<button
+					type="button"
+					class="app-header__menu-toggle"
+					onclick={() => (isMobileMenuOpen = !isMobileMenuOpen)}
+					aria-expanded={isMobileMenuOpen}
+					aria-controls="app-mobile-navigation"
+					aria-label={isMobileMenuOpen ? 'Close menu' : 'Open menu'}
+				>
+					<span class="app-header__menu-line"></span>
+					<span class="app-header__menu-line"></span>
+					<span class="app-header__menu-line"></span>
+				</button>
+			</div>
+		</div>
 	</div>
 
 	<div
@@ -330,7 +330,7 @@
 				class="app-header__mobile-cta"
 				onclick={handlePrimaryAction}
 			>
-				Contact
+				Contact Nordic
 			</Button>
 		{:else}
 			<Button
@@ -341,7 +341,7 @@
 				class="app-header__mobile-cta"
 				onclick={() => (isMobileMenuOpen = false)}
 			>
-				Contact
+				Contact Nordic
 			</Button>
 		{/if}
 	</div>
@@ -351,58 +351,56 @@
 	.app-header {
 		position: sticky;
 		top: 0;
-		z-index: 30;
-		border-bottom: 1px solid color-mix(in oklab, var(--glass-border) 90%, transparent);
-		background: linear-gradient(
-			170deg,
-			color-mix(in oklab, var(--glass-surface-strong) 92%, white),
-			color-mix(in oklab, var(--glass-surface) 84%, var(--color-bg-subtle))
-		);
-		box-shadow: 0 1px 0 rgb(255 255 255 / 0.5);
-		backdrop-filter: var(--glass-blur-md);
-		-webkit-backdrop-filter: var(--glass-blur-md);
-		transition:
-			box-shadow var(--duration-base) var(--ease-standard),
-			border-color var(--duration-base) var(--ease-standard),
-			background-color var(--duration-base) var(--ease-standard);
+		z-index: 40;
+		padding-top: 1rem;
 	}
 
-	.app-header--elevated {
-		box-shadow: var(--glass-shadow-md);
-	}
-
-	.app-header__inner {
+	.app-header__pill {
 		display: grid;
 		grid-template-columns: auto 1fr auto;
 		align-items: center;
+		gap: clamp(0.75rem, 2vw, 1.5rem);
 		min-height: var(--header-height);
-		gap: clamp(var(--space-3), 2.2vw, var(--space-6));
+		padding: 0.8rem 1rem 0.8rem 1.15rem;
+		border-radius: var(--radius-pill);
+		border: 1px solid rgb(255 255 255 / 0.78);
+		background: rgb(255 255 255 / 0.74);
+		box-shadow: 0 18px 38px -28px rgb(20 20 19 / 0.3);
+		backdrop-filter: blur(18px);
+		-webkit-backdrop-filter: blur(18px);
+		transition:
+			transform var(--duration-base) var(--ease-standard),
+			box-shadow var(--duration-base) var(--ease-standard),
+			background-color var(--duration-base) var(--ease-standard);
+	}
+
+	.app-header--elevated .app-header__pill {
+		transform: translateY(-1px);
+		box-shadow: var(--shadow-md);
+		background: rgb(255 255 255 / 0.82);
 	}
 
 	.app-header__brand {
 		display: inline-flex;
 		align-items: center;
+		gap: 0.9rem;
+		min-width: 0;
 		text-decoration: none;
-		border-radius: var(--radius-sm);
-		line-height: 0;
+		color: inherit;
 	}
 
 	.app-header__logo {
-		width: clamp(7.8rem, 12.6vw, 9.8rem);
-		aspect-ratio: 147.401 / 70.866;
+		width: clamp(8rem, 11vw, 9.8rem);
 		height: auto;
 	}
 
-	@media (max-width: 1200px) {
-		.app-header__logo {
-			width: 8.9rem;
-		}
-	}
-
-	@media (max-width: 700px) {
-		.app-header__logo {
-			width: 7.9rem;
-		}
+	.app-header__brand-copy {
+		max-width: 10rem;
+		font-size: 0.82rem;
+		line-height: 1.1;
+		letter-spacing: 0.08em;
+		text-transform: uppercase;
+		color: var(--color-text-subtle);
 	}
 
 	.app-header__desktop-nav {
@@ -410,259 +408,188 @@
 	}
 
 	.app-header__list {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		gap: clamp(0.4rem, 1vw, 0.8rem);
 		margin: 0;
 		padding: 0;
 		list-style: none;
-		display: flex;
-		align-items: center;
-		flex-wrap: wrap;
-		justify-content: center;
-		gap: clamp(var(--space-2), 1.8vw, var(--space-5));
 	}
 
 	.app-header__link {
 		display: inline-flex;
 		align-items: center;
 		justify-content: center;
-		min-height: 1.8rem;
-		padding: var(--space-1) var(--space-2);
+		min-height: 2.35rem;
+		padding: 0.3rem 0.95rem;
 		border-radius: var(--radius-pill);
-		text-decoration-line: underline;
-		text-decoration-thickness: 0.08em;
-		text-decoration-color: transparent;
-		text-underline-offset: 0.25em;
-		font-size: 0.95rem;
-		font-weight: 500;
+		text-decoration: none;
 		color: var(--color-text-muted);
+		font-size: 0.96rem;
+		font-weight: 500;
+		letter-spacing: -0.02em;
 		transition:
-			color var(--duration-base) var(--ease-standard),
-			text-decoration-color var(--duration-base) var(--ease-standard),
 			background-color var(--duration-base) var(--ease-standard),
+			color var(--duration-base) var(--ease-standard),
 			transform var(--duration-fast) var(--ease-emphasis);
+	}
+
+	.app-header__link--active {
+		background: color-mix(in srgb, var(--color-bg-subtle) 72%, white);
+		color: var(--color-text-primary);
 	}
 
 	@media (hover: hover) {
 		.app-header__link:hover {
+			background: rgb(255 255 255 / 0.72);
 			color: var(--color-text-primary);
-			background: color-mix(in oklab, var(--glass-surface) 78%, white);
-			text-decoration-color: color-mix(in oklab, var(--color-text-primary) 56%, transparent);
+			transform: translateY(-1px);
 		}
 	}
 
-	.app-header__link:active {
-		transform: scale(0.98);
-	}
-
-	.app-header__link--active {
-		color: var(--color-text-primary);
-		background: color-mix(in oklab, var(--glass-surface-strong) 72%, white);
-		text-decoration-color: var(--color-text-primary);
-	}
-
-	:global(.app-header__cta) {
+	.app-header__actions {
+		display: flex;
+		align-items: center;
+		justify-content: flex-end;
+		gap: 0.75rem;
 		justify-self: end;
+		margin-left: auto;
 	}
 
 	.app-header__menu-toggle {
 		display: none;
 		position: relative;
-		--menu-line-offset: 0.4rem;
-		align-items: center;
-		justify-content: center;
-		width: 2.8rem;
-		height: 2.8rem;
-		margin-left: auto;
-		border: 1px solid var(--glass-border);
-		border-radius: var(--radius-md);
-		background: color-mix(in oklab, var(--glass-surface-strong) 74%, white);
-		box-shadow: var(--glass-shadow-sm);
-		backdrop-filter: var(--glass-blur-sm);
-		-webkit-backdrop-filter: var(--glass-blur-sm);
+		width: 3rem;
+		height: 3rem;
+		border: none;
+		border-radius: 50%;
+		background: rgb(255 255 255 / 0.02);
 		color: var(--color-text-primary);
+		box-shadow: none;
 		transition:
 			background-color var(--duration-base) var(--ease-standard),
-			border-color var(--duration-base) var(--ease-standard),
-			box-shadow var(--duration-base) var(--ease-standard),
 			transform var(--duration-fast) var(--ease-emphasis);
 	}
 
 	.app-header__menu-line {
 		position: absolute;
 		left: 50%;
-		top: 50%;
-		width: 1.25rem;
+		width: 1rem;
 		height: 2px;
-		border-radius: var(--radius-pill);
+		border-radius: 999px;
 		background: currentColor;
-		transform-origin: center;
+		transform: translateX(-50%);
 		transition:
 			transform var(--duration-base) var(--ease-emphasis),
-			opacity var(--duration-fast) var(--ease-standard);
+			opacity var(--duration-base) var(--ease-standard);
 	}
 
 	.app-header__menu-line:nth-child(1) {
-		transform: translate(-50%, calc(-50% - var(--menu-line-offset)));
+		top: 1rem;
 	}
 
 	.app-header__menu-line:nth-child(2) {
-		transform: translate(-50%, -50%);
+		top: 1.45rem;
 	}
 
 	.app-header__menu-line:nth-child(3) {
-		transform: translate(-50%, calc(-50% + var(--menu-line-offset)));
+		top: 1.9rem;
 	}
 
 	.app-header__menu-toggle[aria-expanded='true'] .app-header__menu-line:nth-child(1) {
-		transform: translate(-50%, -50%) rotate(45deg);
+		transform: translateX(-50%) translateY(0.45rem) rotate(45deg);
 	}
 
 	.app-header__menu-toggle[aria-expanded='true'] .app-header__menu-line:nth-child(2) {
 		opacity: 0;
-		transform: translate(-50%, -50%) scaleX(0.7);
 	}
 
 	.app-header__menu-toggle[aria-expanded='true'] .app-header__menu-line:nth-child(3) {
-		transform: translate(-50%, -50%) rotate(-45deg);
-	}
-
-	@media (hover: hover) {
-		.app-header__menu-toggle:hover {
-			background: color-mix(in oklab, var(--glass-surface-strong) 88%, white);
-			box-shadow: var(--glass-shadow-md);
-		}
-	}
-
-	.app-header__menu-toggle:active {
-		transform: scale(0.98);
+		transform: translateX(-50%) translateY(-0.45rem) rotate(-45deg);
 	}
 
 	.app-header__mobile-panel {
 		display: none;
-		padding-inline: var(--container-gutter);
-		max-height: 0;
-		overflow: hidden;
-		visibility: hidden;
-		pointer-events: none;
-		opacity: 0;
-		transform: translateY(-0.5rem);
-		background: linear-gradient(
-			180deg,
-			color-mix(in oklab, var(--glass-surface-strong) 92%, white),
-			color-mix(in oklab, var(--glass-surface) 86%, var(--color-bg-subtle))
-		);
-		backdrop-filter: var(--glass-blur-md);
-		-webkit-backdrop-filter: var(--glass-blur-md);
-		transition:
-			max-height 260ms var(--ease-emphasis),
-			opacity var(--duration-base) var(--ease-standard),
-			transform var(--duration-base) var(--ease-standard),
-			border-color var(--duration-base) var(--ease-standard);
-		border-top: 1px solid transparent;
-	}
-
-	.app-header__mobile-panel--open {
-		max-height: 70vh;
-		visibility: visible;
-		pointer-events: auto;
-		opacity: 1;
-		transform: translateY(0);
-		border-top-color: color-mix(in oklab, var(--glass-border) 90%, transparent);
-	}
-
-	.app-header__mobile-list {
-		margin: 0;
-		padding: var(--space-3) 0 var(--space-2);
-		list-style: none;
-		display: grid;
-		gap: var(--space-1);
-	}
-
-	.app-header__mobile-link {
-		display: flex;
-		align-items: center;
-		width: 100%;
-		min-height: 2.9rem;
-		padding-inline: var(--space-2);
-		border-radius: var(--radius-sm);
-		text-decoration-line: underline;
-		text-decoration-thickness: 0.08em;
-		text-decoration-color: transparent;
-		text-underline-offset: 0.25em;
-		font-size: 1rem;
-		font-weight: 500;
-		color: var(--color-text-primary);
-		transition:
-			text-decoration-color var(--duration-base) var(--ease-standard),
-			transform var(--duration-fast) var(--ease-emphasis);
-	}
-
-	.app-header__mobile-link--active {
-		text-decoration-color: var(--color-text-primary);
 	}
 
 	@media (hover: hover) {
-		.app-header__mobile-link:hover {
-			background: color-mix(in oklab, var(--glass-surface) 82%, white);
-			text-decoration-color: color-mix(in oklab, var(--color-text-primary) 56%, transparent);
+		.app-header__menu-toggle:hover {
+			background: rgb(20 20 19 / 0.05);
+			transform: translateY(-1px);
 		}
 	}
 
-	.app-header__mobile-link:active {
-		transform: scale(0.99);
-	}
-
-	.app-header__brand:focus-visible,
-	.app-header__link:focus-visible,
-	.app-header__mobile-link:focus-visible,
-	.app-header__menu-toggle:focus-visible {
-		outline: 2px solid var(--focus-ring-color);
-		outline-offset: 2px;
-		box-shadow: 0 0 0 4px var(--focus-ring-shadow);
-	}
-
-	:global(.app-header__mobile-cta) {
-		margin: var(--space-2) 0 var(--space-4);
-	}
-
-	@media (max-width: 460px) {
-		.app-header__logo {
-			width: 7.2rem;
+	@media (max-width: 1080px) {
+		.app-header__brand-copy {
+			display: none;
 		}
 	}
 
 	@media (max-width: 960px) {
-		.app-header__inner {
-			grid-template-columns: auto auto;
-			min-height: calc(var(--header-height) - 0.2rem);
-			padding-block: var(--space-2);
+		.app-header__pill {
+			grid-template-columns: auto 1fr auto;
+			padding-right: 0.7rem;
 		}
 
-		.app-header__desktop-nav {
+		.app-header__desktop-nav,
+		:global(.app-header__cta) {
 			display: none;
 		}
 
-		:global(.app-header__inner .app-header__cta) {
-			display: none !important;
-		}
-
-		.app-header__menu-toggle,
-		.app-header__mobile-panel {
-			display: flex;
+		.app-header__menu-toggle {
+			display: inline-flex;
+			align-items: center;
+			justify-content: center;
 		}
 
 		.app-header__mobile-panel {
-			flex-direction: column;
+			display: none;
+			gap: 1.5rem;
+			margin: 0.9rem var(--container-gutter) 0;
+			padding: 1.5rem;
+			border-radius: 2rem;
+			background: rgb(255 255 255 / 0.88);
+			box-shadow: var(--shadow-md);
+		}
+
+		.app-header__mobile-panel--open {
+			display: grid;
+		}
+
+		.app-header__mobile-list {
+			display: grid;
+			gap: 0.4rem;
+			margin: 0;
+			padding: 0;
+			list-style: none;
+		}
+
+		.app-header__mobile-link {
+			display: block;
+			padding: 0.95rem 1rem;
+			border-radius: 1.3rem;
+			text-decoration: none;
+			color: var(--color-text-primary);
+			background: rgb(243 240 238 / 0.9);
+		}
+
+		.app-header__mobile-link--active {
+			background: color-mix(in srgb, var(--color-accent-soft) 14%, white);
 		}
 	}
 
-	@media (prefers-reduced-motion: reduce) {
-		.app-header,
-		.app-header__link,
-		.app-header__menu-toggle,
-		.app-header__menu-line,
-		.app-header__mobile-link,
-		.app-header__mobile-panel {
-			transition: none;
+	@media (max-width: 600px) {
+		.app-header {
+			padding-top: 0.8rem;
+		}
+
+		.app-header__pill {
+			padding-left: 0.9rem;
+		}
+
+		.app-header__logo {
+			width: 7.3rem;
 		}
 	}
 </style>

@@ -5,5 +5,5 @@
 <RoutePlaceholder
 	pageTitle="Why Nordic"
 	routePath="/why-nordic"
-	purpose="Trust and differentiation placeholder for concise reasons to partner with Nordic Solutions."
+	purpose="Key reasons organizations choose Nordic Solutions for accountable, long-horizon defense collaboration."
 />

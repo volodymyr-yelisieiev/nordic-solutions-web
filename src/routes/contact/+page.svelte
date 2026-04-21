@@ -5,5 +5,5 @@
 <RoutePlaceholder
 	pageTitle="Contact"
 	routePath="/contact"
-	purpose="Contact conversion placeholder for final form, channels, and legal details."
+	purpose="Direct contact details and intake paths for new partnership discussions, program briefs, and follow-up."
 />

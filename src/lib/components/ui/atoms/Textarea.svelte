@@ -19,38 +19,34 @@
 		width: 100%;
 		font: inherit;
 		font-size: var(--font-size-body);
-		line-height: var(--line-height-body);
+		line-height: 1.5;
 		padding: var(--control-padding-block) var(--control-padding-inline-field);
-		border-radius: var(--radius-sm);
-		border: 1px solid var(--glass-border);
-		background: color-mix(in oklab, var(--glass-surface-strong) 80%, white);
-		backdrop-filter: var(--glass-blur-sm);
-		-webkit-backdrop-filter: var(--glass-blur-sm);
+		border-radius: 1.5rem;
+		border: 1px solid color-mix(in srgb, var(--color-text-primary) 16%, transparent);
+		background: rgb(255 255 255 / 0.88);
 		color: var(--color-text-primary);
 		resize: vertical;
-		min-height: 7.2rem;
+		min-height: 8rem;
 		transition:
 			border-color var(--duration-base) var(--ease-standard),
 			box-shadow var(--duration-base) var(--ease-standard),
-			background-color var(--duration-base) var(--ease-standard),
 			transform var(--duration-fast) var(--ease-emphasis);
 	}
 
 	.ui-textarea::placeholder {
-		color: color-mix(in oklab, var(--color-text-muted) 74%, transparent);
+		color: color-mix(in srgb, var(--color-text-muted) 78%, transparent);
 	}
 
 	.ui-textarea:focus-visible {
 		outline: 2px solid var(--focus-ring-color);
 		outline-offset: 1px;
-		box-shadow: 0 0 0 4px var(--focus-ring-shadow);
-		border-color: color-mix(in oklab, var(--color-accent) 34%, var(--glass-border));
-		background: color-mix(in oklab, var(--glass-surface-strong) 90%, white);
+		border-color: color-mix(in srgb, var(--color-accent) 52%, white);
+		box-shadow: 0 0 0 4px rgb(243 115 56 / 0.12);
 		transform: translateY(-1px);
 	}
 
 	.ui-textarea--invalid {
-		border-color: color-mix(in oklab, var(--color-danger) 68%, var(--glass-border));
-		background: color-mix(in oklab, var(--color-danger) 5%, var(--glass-surface-strong));
+		border-color: color-mix(in srgb, var(--color-danger) 68%, white);
+		background: color-mix(in srgb, var(--color-danger) 6%, white);
 	}
 </style>
